@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="19px" height="18px" viewBox="0 0 19 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon button/20px/move_to_cart1</title>
+    <g id="Icon-button/20px/move_to_cart1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-14">
+            <g id="Group-4">
+                <g id="Stacked-Group-2" transform="translate(0.000000, 1.000000)" fill-rule="nonzero" stroke="#000000">
+                    <g id="Group-3">
+                        <polyline id="Path-2" points="0.109781901 0.143798828 2.78526476 0.143798828 6.298801 12.827474 15.6684028 12.827474 18.1165907 3.92689345 3.89555921 3.92689345"></polyline>
+                        <circle id="Oval-3" fill="#000000" cx="7.91666667" cy="15.4722222" r="1"></circle>
+                        <circle id="Oval-3" fill="#000000" cx="14.25" cy="15.4722222" r="1"></circle>
+                    </g>
+                </g>
+                <rect id="Rectangle" fill="#FFFFFF" x="7" y="0" width="8" height="9"></rect>
+            </g>
+            <rect id="Rectangle" fill="#FFFFFF" x="7" y="0" width="8" height="9"></rect>
+            <g id="straight-right-arrow-(1)" transform="translate(11.108753, 5.000000) rotate(90.000000) translate(-11.108753, -5.000000) translate(7.000000, 2.000000)" fill="#000000" fill-rule="nonzero">
+                <path d="M8.03091215,2.64548103 L4.84113154,0.10684426 C4.51143846,-0.148667882 4.01689883,0.0821172789 4.01689883,0.502475964 L4.01689883,1.35143566 C4.01689883,1.62343246 3.83556763,1.86245995 3.56357083,1.86245995 L0.49453963,1.86245995 C0.222542833,1.86245995 0,2.0602758 0,2.34051492 L0,3.67577192 C0,3.93952639 0.222542833,4.17031155 0.49453963,4.17031155 L3.56357083,4.17031155 C3.83556763,4.17031155 4.01689883,4.38469448 4.01689883,4.65660885 L4.01689883,5.50556855 C4.01689883,5.91768491 4.51143846,6.14847007 4.83288921,5.89295793 L8.0144275,3.42025978 C8.27818197,3.23068625 8.28642429,2.84329688 8.03091215,2.64548103 Z" id="Path"></path>
+            </g>
+        </g>
+    </g>
+</svg>

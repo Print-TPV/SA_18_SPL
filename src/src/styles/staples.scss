@@ -1,0 +1,255 @@
+// HTML generic fulfillment property detail box for NG static pages
+
+.html-detail-box-wrapper {
+    display: flex;
+    flex-flow: wrap;
+ }
+ 
+ .html-detail-box-container {
+     position: relative;
+     width: 100%;
+     background: #f3f3f3;
+     border: 0px;
+     margin: 0 0 12px 0;
+     padding: 17px 24px;
+     border-radius: var(--spls-input-border-radius);
+     display: flex;
+     flex-direction: column;
+     justify-content: flex-start;
+     align-items: start;
+ }
+ 
+ .html-detail-box-content {
+     display: flex;
+     flex-direction: row;
+     flex-wrap: wrap;
+     column-gap: 20px;
+     row-gap: 20px;
+     align-items: stretch;
+     width: 100%;
+ }
+ 
+ .html-detail-inner {
+     flex-grow: 1;
+ 
+     .detail-inner-title {
+         font-family: var(--spls-option-font-family);
+         font-weight: var(--spls-option-font-weight);
+         font-size: var(--spls-option-font-size);
+         color: #000;
+         margin-bottom: 5px;
+     }
+ 
+     .detail-inner-content {
+         color: var(--spls-black);
+         font-size: var(--spls-opt-subtext-size)!important;
+         font-family: var(--spls-opt-subtext-fam)!important;
+         overflow: hidden;
+         text-overflow: ellipsis;
+     }
+ 
+     .detail-inner-link {
+         font-family: var(--spls-option-font-family);
+         font-weight: var(--spls-option-font-weight);
+         font-size: var(--spls-option-font-size);
+         white-space: nowrap;
+         height: 100%;
+        //  display: flex;
+        //  align-items: center;
+ 
+         .a:visited {
+             color: rgb(0, 0, 0);
+             text-decoration: underline;
+         }
+ 
+         .a:hover {
+             color: rgb(0, 0, 0);
+             text-decoration: none;
+         }
+     }
+ }
+ 
+ // legacy notification bubble
+ 
+ .notificationBubble__notificationWrapper.notificationBubble__primary {
+     border: 1px solid var(--spls-link-blue);
+     border-left-width: 12px;
+ }
+ 
+ .notificationBubble__notificationWrapper.notificationBubble__alert {
+     border: 1px solid var(--spls-warning);
+     border-left-width: 12px;
+ }
+ 
+ .notificationBubble__notificationWrapper.notificationBubble__start {
+     align-items: flex-start;
+ }
+ 
+ .notificationBubble__notificationWrapper.notificationBubble__background_color_white {
+     background-color: #fff;
+ }
+ 
+ .notificationBubble__notificationWrapper {
+     font-weight: 400;
+     color: #000;
+     border-radius: 4px;
+     padding: 15px 24px 15px 12px;
+     display: inline-flex;
+     position: relative;
+ }
+ 
+ .notificationBubble__notificationWrapper .notificationBubble__icon_span {
+     display: flex;
+     min-width: 21px;
+ }
+ 
+ .uiStyles__text_blue {
+     color: var(--spls-link-blue);
+ }
+ 
+ .uiStyles__text_orange {
+     color: var(--spls-warning);
+ }
+ 
+ .notificationBubble__notificationWrapper .notificationBubble__content {
+     padding-left: 12px;
+ }
+ 
+ .notificationBubble__notificationWrapper .notificationBubble__content.notificationBubble__lg {
+     font-size: 16px;
+     line-height: 24px;
+ }
+ 
+ .notificationBubble__notificationWrapper .notificationBubble__content.notificationBubble__md {
+     font-size: 14px;
+     line-height: 20px;
+ }
+ 
+ .notificationBubble__notificationWrapper .notificationBubble__content.notificationBubble__sm {
+     font-size: 12px;
+     line-height: 16px;
+ }
+ 
+ .icon__icon {
+     display: inline-flex;
+     position: relative;
+     width: fit-content;
+ }
+ 
+ // end notification bubble
+ 
+ // added for max width of NG static input fields, currently only flatpickr calendar but will affect any other form inputs
+ .static-product-properties.product-properties .generic-inner .form-control.input {
+     max-width: 300px;
+     min-width: 186px;
+ 
+ }
+ // added for max width of NG static input fields, currently only flatpickr calendar but will affect any other form inputs
+ .product-instance-properties.product-properties .generic-inner .form-control.input {
+     max-width: 300px;
+     min-width: 186px;
+ 
+ }
+ 
+ // Staples Custom CSS - moved from store-level theme customization
+ 
+ // Store Selector modal
+ 
+ .closeCrossNG {
+     position: relative;
+     float: right;
+     font-size: var(--spls-button-md-font-size);
+     color: #4d4d4f;
+ }
+ 
+ .closeBarNG {
+     position: relative;
+     width: 100%;
+     top: 0px;
+     height: 20px;
+     margin-top: 10px;
+ }
+ 
+ .SPLS_modalContainerNG {
+     position: fixed;
+     top: 0;
+     right: 0;
+     bottom: 0;
+     left: 0;
+     opacity: 1;
+     pointer-events: auto;
+     display: none;
+     font-family: var(--spls-font-med);
+     z-index: 1;
+ }
+ 
+ .SPLS_modalBackgroundNG {
+     position: fixed;
+     top: 0;
+     right: 0;
+     bottom: 0;
+     left: 0;
+     background: rgba(0, 0, 0, 0.5);
+     opacity: 1;
+     pointer-events: auto;
+ }
+     
+ .SPLS_modalDialogNG:target {
+     opacity: 1;
+     pointer-events: auto;
+ }
+ 
+ .SPLS_modalNG {
+     width: 500px;
+     max-width: 80vw;
+     height: 550px;
+     margin: 10% auto;
+     position: relative;
+     padding: 10px 30px 13px 30px;
+     border-radius: 12px;
+     background: #fff;
+     z-index: 1000;
+ }
+ 
+ // form field labels - to overlay field
+ 
+ .formLabel {
+     font-family: var(--spls-font-light);
+     font-size: var(--spls-form-label-font-size);
+     line-height: var(--spls-form-label-line-height);
+     font-weight: var(--spls-form-label-font-weight);
+     position: relative;
+    //  top: 11px;
+     padding: 2px 4px;
+    //  left: 5px;
+     text-transform: inherit;
+     margin: 0px;
+     background: rgb(255, 255, 255);
+ }
+ 
+ .FormField.altPick {
+     border-radius: var(--spls-input-border-radius);
+     height: 40px;
+     text-transform: initial;
+     margin-left: 19px;
+ 
+     &.NG {
+         margin-left: 0px;
+     }
+ }
+ 
+ .altPickLabel {
+     font-size: 14px;
+     line-height: 14px;
+     position: relative;
+     display: block;
+     text-transform: none;
+     padding: 3px 6px 0;
+     margin: 0 0 -25px 24px;
+     background-color: #fff;
+     width: max-content;
+ 
+     &.NG {
+         margin: 0 0 -21px 5px;
+     }
+ }

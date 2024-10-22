@@ -1,0 +1,48 @@
+@font-face {
+    font-family: 'Open Sans';
+    src:  url('../assets/fonts/open-sans-v15-vietnamese_latin_greek-ext_cyrillic_greek_cyrillic-ext_latin-ext-regular.woff2') format('woff2'),
+          url('../assets/fonts/open-sans-v15-vietnamese_latin_greek-ext_cyrillic_greek_cyrillic-ext_latin-ext-regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Motiva-Light';
+    font-display: swap;
+    src: url('../fonts/motivasans-light-webfont.woff2') format('woff2');
+    font-size: 200px;
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Motiva-Medium';
+    font-display: swap;
+    src: url('../fonts/motivasans-medium-webfont.woff2')  format('woff2');
+    font-weight: normal;
+    font-size: 200px;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Motiva-Medium-Italic';
+    font-display: swap;
+    src: url('../fonts/motivasans-mediumitalic-webfont.woff2')  format('woff2');
+    font-weight: normal;
+    font-size: 200px;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Motiva-Bold';
+    font-display: swap;
+    src: url('../fonts/motivasans-bold-webfont.woff2') format('woff2');
+    font-weight: normal;
+    font-size: 200px;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Motiva-Extra-Bold';
+    font-display: swap;
+    src: url('../fonts/motivasans-extrabold-webfont.woff2') format('woff2');
+    font-weight: normal;
+    font-size: 200px;
+    font-style: normal;
+}

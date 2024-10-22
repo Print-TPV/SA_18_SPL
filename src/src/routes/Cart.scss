@@ -1,0 +1,9 @@
+@import "_theme.scss";
+
+.cart-ng {
+  .main-content {
+    @media (max-width: $xs) {
+      padding-top: 0px;
+    }
+  }
+}

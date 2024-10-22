@@ -1,0 +1,58 @@
+// START NotificationBubble
+
+.spls-ui-notification {
+    transition: max-height 1s ease 0s;
+    overflow: hidden;
+    animation: 1s ease-out 1s 1 normal forwards;
+    display: flex;
+    flex-flow: wrap;
+}
+    .notification-inner {
+        line-height: 24px;
+        color: rgb(0, 0, 0);
+        border-radius: 4px;
+        padding: 15px 24px 15px 12px;
+        display: inline-flex;
+        position: relative;
+        border-width: 1px 1px 1px 12px;
+        border-style: solid;
+        border-image: initial;
+        -webkit-box-align: center;
+        align-items: center;
+        background-color: rgb(255, 255, 255);
+
+        &.info {
+            border-color: var(--spls-info);
+        }
+
+        &.success {
+            border-color: var(--spls-positive);
+        }
+        
+        &.warning {
+            border-color: var(--spls-warning);
+        }
+
+        &.failure {
+            border-color: var(--spls-negative);
+        }
+    }
+
+    .icon-block {
+        display: block;
+        min-width: 21px;
+    }
+
+    .message {
+        padding-left: 12px;
+        line-height: initial;
+
+        &.sm {
+            font-size: var(--spls-alert-font-sm);
+        }
+        &.md {
+            font-size: var(--spls-alert-font-md);
+        }
+    }
+
+// END NotificationBubble

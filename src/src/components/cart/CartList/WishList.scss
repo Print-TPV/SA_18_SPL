@@ -1,0 +1,34 @@
+@import "_theme.scss";
+
+.wish-list {
+  padding-bottom: 50px;
+  padding-top: 30px;
+
+  @media (max-width: $lg) {
+    padding-top: 10px;
+  }
+    @media (max-width: $md) {
+    padding-top: 0;
+  }
+  .cart-header {
+    @media (max-width: $lg) {
+      padding-top: 0;
+    }
+
+    @media (max-width: $sm) {
+      margin-top: 30px;
+    }
+  }
+
+  .empty-cart-button-icon {
+    @media (min-width: $lg) {
+      display: none;
+    }
+  }
+
+  .cart-item-message {
+    @media (min-width: $lg) {
+      grid-column: 2;
+    }
+  }
+}

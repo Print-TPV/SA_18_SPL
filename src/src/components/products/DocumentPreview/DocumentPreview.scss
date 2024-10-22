@@ -1,0 +1,420 @@
+@import 'src/components/products/StaplesUI/styles/staplesui';
+@import "_theme.scss";
+.empty_state_doc_preview {
+  padding: 24px;
+}
+.letter_page_size {
+  width: 406.205px;
+  height: 314.84px;
+  flex-shrink: 0;
+}
+
+.page_wrapper {
+  margin-top: 24px;
+}
+.msg_txt {
+  @include font(motiva);
+  color: black;
+  text-align: center;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  position: relative;
+
+  @include breakpoint(xs) {
+    font-size: 16px;
+  }
+  @include breakpoint(xxs) {
+    font-size: 16px;
+  }
+}
+
+.upload_txt {
+  @include font(motiva_bold);
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  margin-top: 10px;
+}
+
+.upload_txt_desc {
+  @include font(motiva_light);
+  text-align: center;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 16px;
+}
+
+.card_container {
+  margin-top: 32px;
+}
+
+.file_operation_heading_container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.file_operation_title {
+  color: black;
+  @include font(motiva_medium);
+  font-size: 16px;
+  font-style: normal;
+  line-height: 24px;
+}
+
+.file_operation_container {
+  border-radius: 7px;
+  border: 1px solid rgb(221, 221, 221);
+  margin: 4px 0px 0px 0px;
+}
+
+.file_action {
+  @include font(motiva);
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  cursor: pointer;
+}
+
+.file_action_disabled {
+  @extend .file_action;
+  color: rgb(117, 117, 117);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.disable_icon {
+  color: rgb(117, 117, 117);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.mar_left_8 {
+  margin-left: 8px;
+}
+
+.file_name_container{ 
+  @include font(motiva);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  margin: 10px;
+  word-break: break-word;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow-wrap: break-word;
+  display: -webkit-box;
+  overflow: hidden;
+  text-decoration: underline;
+}
+
+.file_name_container_ {
+  @include font(motiva);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  margin: 10px;
+  word-break: break-word;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow-wrap: break-word;
+  display: -webkit-box;
+  overflow: hidden;
+  text-decoration: underline;
+}
+
+.file_name_container_drag_list {
+  @include font(motiva);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  word-break: break-word;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow-wrap: break-word;
+  display: -webkit-box;
+  overflow: hidden;
+}
+
+.file_name_tooltip_text {
+  @include font(motiva);
+  text-align: center;
+  padding: 10px 5px;
+  word-break: break-word;
+  font-size: 14px;
+}
+
+.spinner-header{
+  @include font(motiva_bold);
+  font-size:24px;
+
+}
+.spinner-description{
+  @include font(motiva);
+  font-size:16px;
+}
+.file-name{
+  display:inline-block;
+  vertical-align:middle;
+  @include font(motiva_bold);
+  font-size:24px;
+  margin-right:10px;
+  white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width:300px;
+}
+.file-size{
+  @include font(motiva);
+  font-size:16px;
+}
+
+.modal-elements{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.spinner_center {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  z-index: 200;
+  margin: -25px 0 0 -50px;
+}
+
+.spinner_view_mask {
+  left: 0;
+  position: fixed;
+  width: 61.67%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, .5);
+  opacity: 1;
+  text-align: center;
+  vertical-align: middle;
+  z-index: 9;
+  @media screen and (max-width: $md) {
+    width: 100%;
+    height: 100vh;
+  }
+}
+.tooltip_text{
+  @include font(motiva);
+  visibility: hidden;
+  background-color: white;
+  color: black;
+  text-align: center;
+  padding: 10px 5px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 9999;
+  top: 38px;
+  min-width: 200px;
+  right: 0px;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+  word-break: break-word;
+  font-size: 14px;
+}
+
+.tooltip_text_drag_list {
+  @include font(motiva);
+  visibility: hidden;
+  background-color: white;
+  color: black;
+  text-align: center;
+  padding: 10px 5px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 9999;
+  top: -90px;
+  min-width: 200px;
+  right: 0px;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+  word-break: break-word;
+  font-size: 14px;
+}
+
+.file_name_wrapper {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 8;
+  cursor: pointer;
+}
+.tooltip_wrapper {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 8;
+  cursor: pointer;
+}
+.tooltip_wrapper:hover .tooltip_text {
+  visibility: visible;
+}
+.tooltip_wrapper_drag_list {
+  position: relative;
+  display: flex;
+  z-index: 8;
+}
+.tooltip_wrapper_drag_list:hover .tooltip_text_drag_list {
+  visibility: visible;
+  cursor: pointer;
+}
+
+.file_page_container{ 
+  @include font(motiva);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  margin: 10px;
+  width: 16%;
+  text-align: right;
+}
+
+.file-list {
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+.file-item {
+  padding: 20px 10px;
+  margin: 10px 0;
+  border: 1px solid rgb(221, 221, 221);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 7px;
+  background-color: white;
+
+  &.remove_animation {
+    opacity: 0.01;
+    transform: translate3d(200%, 0, 0);
+    transition: all 1s cubic-bezier(0.3, 0.0, 0.2, 1);
+  }
+}
+
+.dragging {
+  opacity: 0.5;
+}
+
+.file-name-tile {
+  display: flex;
+  flex-direction: column;
+  cursor: move;
+  flex-grow: 1;
+}
+
+.delete-tile {
+  cursor: pointer;
+}
+
+.file-navigation-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0 18px 0 8px;
+}
+
+.file-navigation-icon {
+  cursor: pointer;
+}
+
+.more-option-action {
+  font-size: 14px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.disable_tile {
+  color: rgb(117, 117, 117);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.popover-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin: 5px 0;
+  gap: 5px;
+}
+
+.file-detail-variables {
+  font-size: 12px;
+}
+
+.options-container {
+  transform: rotate(90deg);
+  margin-top: -22px;
+}
+.Modal-heading {
+  @include font(motiva);
+
+ 
+  font-family: "Motiva",sans-serif;
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+  text-align: left;
+}
+.modal-text{
+  font-family: "Motiva",sans-serif;
+  text-align: left;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 24px;
+}
+.text-margin{
+  margin-top: 16px;
+
+}
+.modal-text1{
+  font-family: "Motiva",sans-serif;
+  text-align: left;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 24px;
+  }
+.Modal-spacing{
+ padding: 16px 32px 0px 32px;
+}
+.modal-text-bold {
+  font-weight: bold;
+}
+.align-btns{
+  text-align: end;
+}
+.text_grey{
+color: #bcbcbc !important;
+}
+.diagonalBorder{
+   height: 210px;
+   border-radius: 15px;
+   background: linear-gradient(to top left, transparent calc(50% - 4px), #dbdada, transparent calc(50% + 1px));
+}
+.info-iconstyle{
+  position: absolute;
+  bottom: 9px;
+}
+.relative-text{
+  position: relative;
+}

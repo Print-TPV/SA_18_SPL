@@ -1,0 +1,344 @@
+.button-primary {
+  border-radius: var(--button-border-radius);
+  text-decoration: none;
+  border: 1px solid var(--button-primary-border-color);
+  display: inline-block;
+  background-color: var(--button-primary-background-color);
+  text-align: center;
+  min-width: 110px;
+  padding: 5px 10px;
+  font-size: var(--text-size-label);
+  line-height: 32px;
+  color: var(--button-primary-text-color);
+  height: var(--spls-button-height); /* SPLS added button height var, moved from disabled state */
+  position: relative;
+
+  &:hover,
+  &:active {
+    box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    color: var(--button-primary-text-color);
+    cursor: pointer;
+  }
+
+  &.thin {
+    height: 30px;
+    line-height: 22px;
+    padding: 4px 10px;
+  }
+
+  &.full-width {
+    min-width: 100%;
+  }
+
+  .loading-dots {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 17px;
+    margin-right: auto;
+    margin-left: auto;
+    cursor: default;
+    div {
+      background-color: white;
+    }
+  }
+
+  .text-hidden {
+    visibility: hidden;
+  }
+}
+
+.button-primary[disabled] {
+  background-color: #f1f1f3;
+  border: 1px solid #f1f1f3;
+  color: var(--text-color-disabled);
+  pointer-events: none;  /* SPLS disabled pointer events on primary button disable */
+
+  &:hover,
+  &:active {
+    box-shadow: none;
+    cursor: default;
+  }
+}
+
+.button-link {
+  text-decoration: none;
+  display: inline-block;
+  color: var(--color-highlight);
+
+  &:hover,
+  &:active {
+    box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.2);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .loading-dots {
+    cursor: default;
+    min-height: 20px;
+    transform: scale(0.8, 0.8);
+    margin-top: 5px;
+    div {
+      background-color: var(--color-highlight);
+    }
+  }
+
+  .text-hidden {
+    display: none;
+  }
+}
+
+.button-link[disabled] {
+  color: var(--text-color-disabled);
+  text-decoration: none;
+  &:hover,
+  &:active {
+    cursor: default;
+  }
+}
+
+.button-secondary {
+  border-radius: var(--button-border-radius);
+  text-decoration: none;
+  border: 1px solid var(--button-secondary-border-color);
+  display: inline-block;
+  background-color: var(--button-secondary-background-color);
+  text-align: center;
+  min-width: 110px;
+  padding: 5px 10px;
+  font-size: var(--text-size-label);
+  line-height: 32px;
+  color: var(--button-secondary-text-color);
+  height: var(--spls-button-height); /* SPLS added button height var */
+  position: relative;
+
+  &:hover,
+  &:active {
+    box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    color: var(--button-secondary-text-color);
+    cursor: pointer;
+  }
+
+  &.thin {
+    height: 30px;
+    line-height: 22px;
+    padding: 4px 10px;
+  }
+  &.full-width {
+    min-width: 100%;
+  }
+
+  .text-hidden {
+    visibility: hidden;
+  }
+
+  .loading-dots {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 17px;
+    margin-right: auto;
+    margin-left: auto;
+    cursor: default;
+    div {
+      background-color: var(--color-highlight);
+    }
+  }
+}
+
+.button-secondary[disabled] {
+  background-color: #f1f1f3;
+  border: 1px solid #f1f1f3;
+  color: var(--text-color-disabled);
+  pointer-events: none;  /* SPLS disabled pointer events on secondary button disable */
+
+  &:hover,
+  &:active {
+    box-shadow: none;
+    cursor: default;
+  }
+}
+
+/* SPLS BUTTONS */
+
+.button-spls-primary {
+  font-family: var(--spls-button-font);
+  display: inline-flex;
+  width: auto;
+  height: auto;
+  position: relative;
+  overflow: hidden;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  transition: all 0.1s ease-in 0s;
+  margin: 10px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
+  border-radius: var(--spls-button-radius);
+  padding: 10px 28px;
+  text-align: center;
+  color: var(--button-primary-text-color);
+  background-color: var(--button-primary-background-color);
+  border: var(--button-primary-border-color);
+
+  &:hover,
+  &:active {
+    box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    color: var(--button-primary-text-color);
+    cursor: pointer;
+  }
+
+  &.thin {
+    height: 30px;
+    line-height: 22px;
+    padding: 4px 10px;
+  }
+
+  &.full-width {
+    min-width: 100%;
+  }
+
+  .loading-dots {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 17px;
+    margin-right: auto;
+    margin-left: auto;
+    cursor: default;
+    div {
+      background-color: white;
+    }
+  }
+
+  .text-hidden {
+    visibility: hidden;
+  }
+}
+
+.button-spls-primary[disabled] {
+  background-color: #f1f1f3;
+  border: 1px solid #f1f1f3;
+  color: var(--text-color-disabled);
+
+  &:hover,
+  &:active {
+    box-shadow: none;
+    cursor: default;
+  }
+}
+
+.button-spls-secondary {
+  font-family: var(--spls-button-font);
+  display: inline-flex;
+  width: auto;
+  height: auto;
+  position: relative;
+  overflow: hidden;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  transition: all 0.1s ease-in 0s;
+  margin: 10px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
+  border-radius: var(--spls-button-radius);
+  padding: 10px 28px;
+  text-align: center;
+  color: var(--button-secondary-text-color);
+  background-color: var(--button-secondary-background-color);
+  border: var(--spls-button-secondary-border);
+
+  &:hover,
+  &:active {
+    box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    color: var(--button-secondary-text-color);
+    cursor: pointer;
+  }
+
+  &.thin {
+    height: 30px;
+    line-height: 22px;
+    padding: 4px 10px;
+  }
+  &.full-width {
+    min-width: 100%;
+  }
+
+  .text-hidden {
+    visibility: hidden;
+  }
+
+  .loading-dots {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 17px;
+    margin-right: auto;
+    margin-left: auto;
+    cursor: default;
+    div {
+      background-color: var(--color-highlight);
+    }
+  }
+}
+
+.button-spls-secondary[disabled] {
+  background-color: #f1f1f3;
+  border: 1px solid #f1f1f3;
+  color: var(--text-color-disabled);
+
+  &:hover,
+  &:active {
+    box-shadow: none;
+    cursor: default;
+  }
+}
+
+.button-spls-primary-text {
+  font-family: var(--spls-button-font);
+  font-stretch: 100%;
+  font-weight: 400;
+  color: var(--button-primary-text-color);
+  margin: 0px;
+  padding: 0px 6px 0px 0px;
+  }
+
+.button-spls-secondary-text {
+font-family: var(--spls-button-font);
+font-stretch: 100%;
+font-weight: 400;
+color: var(--spls-button-secondary-text-color);
+margin: 0px;
+padding: 0px 6px 0px 0px;
+}
+
+.spls-btn-text-xs {
+  font-size: var(--spls-button-xs-font-size);
+  line-height: var(--spls-button-xs-line-height);
+}
+
+.spls-btn-text-sm {
+  font-size: var(--spls-button-sm-font-size);
+  line-height: var(--spls-button-sm-line-height);
+}
+
+.spls-btn-text-md {
+  font-size: var(--spls-button-md-font-size);
+  line-height: var(--spls-button-md-line-height);
+}
+
+.button-spls-primary-sws {
+  @extend .button-spls-primary;
+  background-color: var(--spls-sws-primary);
+}
+
+.button-spls-primary-hit {
+  @extend .button-spls-primary;
+  background-color: var(--spls-hit-primary);
+}

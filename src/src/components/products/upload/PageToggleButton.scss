@@ -1,0 +1,39 @@
+@import "_theme.scss";
+
+
+.toggle-btn-wrapper {
+  background-color: var(--button-primary-background-color);
+  border: 1px solid var(--button-primary-border-color);
+  padding: 4px 5px;
+  border-radius: 24px;
+  height: 48px;
+  display: flex;
+  margin: 30px auto 0;
+  width: fit-content;
+
+  @media (max-width: $md) {
+    width: fit-content;
+    margin-top: 15px;
+  }
+
+  .left-btn, .right-btn {
+    position: relative;
+    top: -1px;
+    background-color: var(--button-primary-background-color);
+    color: #FFF;
+    border: none;
+    height: 40px;
+    border-radius: 20px;
+    padding: 9px 15px;
+    font-size: var(--text-size-label);
+    font-family: var(--font-family);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .active {
+    background-color: #FFF;
+    color: var(--text-color-dark);
+    border: 1px solid var(--button-primary-border-color);
+  }
+}

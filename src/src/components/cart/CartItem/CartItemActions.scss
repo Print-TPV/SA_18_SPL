@@ -1,0 +1,48 @@
+@import "_theme.scss";
+
+.actions-list {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  margin-bottom: 1px;
+  justify-content: flex-end;
+  width: 100%;
+
+  @media (max-width: $sm) {
+    margin-top: 0;
+  }
+
+  .action {
+    background-color: inherit;
+    border: none;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+
+    &:disabled {
+      .icon {
+        path {
+          stroke: #cacaca;
+        }
+      }
+    }
+
+    .icon {
+      path {
+        stroke: var(--color-icon);
+      }
+    }
+  }
+
+  & > *:not(:last-child) {
+    margin-right: 20px;
+  }
+
+
+
+  .divider {
+    border-right: 1px solid var(--color-line);
+  }
+
+}
+

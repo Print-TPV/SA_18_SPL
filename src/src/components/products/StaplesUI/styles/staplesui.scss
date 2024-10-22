@@ -1,0 +1,444 @@
+@use "sass:color";
+// Colors 
+
+$white: #fff;
+$black: #000;
+$brand: #c00;
+$brand_text: white;
+$dark_gray_1: #4d4d4f;
+$dark_gray_2: #757575;
+$medium_gray_1: #969696;
+$medium_gray_2: #bcbcbc;
+$light_gray_1: #ddd;
+$light_gray_2: #f3f3f3;
+$light_gray_3: #ececec;
+$link_blue: #086dd2;
+$staples_blue: #10A0D1;
+$light_blue: #ecf4fd;
+$staples_red: #c00;
+$dark_red: #a30000;
+$medium_red_1: #e35555;
+$medium_red_2: #f59191;
+$light_red_1: #f7baba;
+$light_red_2: #fbebeb;
+$magenta: #832F68;
+$medium_magenta_1: #B17097;
+$medium_magenta_2: #D19DBB;
+$light_magenta_1: #E8C9DD;
+$light_magenta_2: #FBF2F9;
+$yellow: #F09E00;
+$medium_yellow_1: #F5BE2F;
+$medium_yellow_2: #F9D26F;
+$light_yellow_1: #F7E2AC;
+$light_yellow_2: #FBF4DA;
+$navy: #486190;
+$medium_navy_1: #6F8DC8;
+$medium_navy_2: #9AB2E1;
+$light_navy_1: #C1D3F4;
+$light_navy_2: #E9F0FD;
+$green: #5A970D;
+$medium_green_1: #8CBF3C;
+$medium_green_2: #AED76F;
+$light_green_1: #CDE9A1;
+$light_green_2: #EEF8E0;
+$teal: #378274;
+$medium_teal_1: #6FB8AB;
+$medium_teal_2: #9ED6CC;
+$light_teal_1: #C0EBE3;
+$light_teal_2: #E4FAF6;
+$earth: #784E4E;
+$medium_earth_1: #A58080;
+$medium_earth_2: #BDA1A1;
+$light_earth_1: #DFCACA;
+$light_earth_2: #FFF2F2;
+$forest: #478140;
+$medium_forest_1: #65A75C;
+$medium_forest_2: #80C687;
+$light_forest_1: #A9DEAF;
+$light_forest_2: #E0F7E2;
+$orange: #C74D00;
+$medium_orange_1: #F07120;
+$medium_orange_2: #FF9450;
+$light_orange_1: #FFB78A;
+$light_orange_2: #FFECE0;
+$purple: #4B5197;
+$medium_purple_1: #757CD2;
+$medium_purple_2: #A3A9EC;
+$light_purple_1: #D0D3FA;
+$light_purple_2: #F1F2FF;
+$pink: #BB3394;
+$medium_pink_1: #DE7BC2;
+$medium_pink_2: #F9A6E1;
+$light_pink_1: #FFC6EF;
+$light_pink_2: #FFECFA;
+$negative: #DD1700;
+$medium_negative: #F5BAB3;
+$light_negative: #FFEFED;
+$warning: #F47F20;
+$medium_warning: #FED471;
+$light_warning: #FFF6DF;
+$info: #529EEB;
+$medium_info: #A9CFF5;
+$light_info: #EDF6FF;
+$positive: #4CBF2F;
+$medium_positive: #A6DF97;
+$light_positive: #EFFBEC;
+$hitouch_orange: #f60;
+$dark_rewards: #c08b28;
+$rewards: #e0b769;
+$light_rewards: #ffd173;
+$premium: #2776c5;
+$select: #0e7477;
+$ink_gray: #969697;
+$ink_light_black: #686666;
+$ink_light_gray: #ddd;
+$ink_violet: #ac7ad8;
+$ink_cyan: #00aff3;
+$ink_light_cyan: #7cd8fc;
+$ink_magenta: #ed3596;
+$ink_light_magenta: #ff9dd0;
+$ink_yellow: #ffbe43;
+$ink_light_yellow: #ffdf86;
+$ink_red: #f60015;
+$ink_blue: #086dd2;
+$ink_green: #4cbf2f;
+$ink_orange: #f47f20;
+$ink_black: #000;
+$neutral_gray: #9b9b9b;
+$transparent: transparent;
+$gray_transparent: rgba(0, 0, 0, 0.2);
+$light_gray_transparent: rgba(0, 0, 0, 0.1);
+
+@function textColorByBackground($color) {
+  @if lightness($color)>50 {
+    @return black;
+  }
+
+  @else {
+    @return white;
+  }
+}
+
+// Breakpoints and Spacing
+
+$breakpoint_xxs: 360;
+$breakpoint_xs: 600;
+$breakpoint_sm: 820;
+$breakpoint_md: 1024;
+$breakpoint_lg: 1440;
+$max_container_width: 1440px;
+
+$grid_spacing: 12px;
+$half_spacing: 6px;
+
+@mixin breakpoint($size) {
+  @if $size==xxs {
+    @media all and (max-width: 360px) {
+      @content;
+    }
+  }
+
+  @else if $size==xs {
+    @media all and (min-width: 361px) and (max-width: 600px) {
+      @content;
+    }
+  }
+
+  @else if $size==sm {
+    @media all and (min-width: 601px) and (max-width: 820px) {
+      @content;
+    }
+  }
+
+  @else if $size==md {
+    @media all and (min-width: 821px) and (max-width: 1024px) {
+      @content;
+    }
+  }
+
+  @else if $size==lg {
+    @media all and (min-width: 1025px) {
+      @content;
+    }
+  }
+}
+
+// Fonts
+
+@mixin fontsize($size) {
+  @if $size==sm {
+    font-size: 12px;
+  }
+
+  @else if $size==md {
+    font-size: 14px;
+  }
+
+  @else if $size==lg {
+    font-size: 16px;
+  }
+}
+
+@mixin font($font) {
+  @if $font==base {
+    font-family: "Motiva", "Helvetica", Arial, sans-serif;
+    color: $black;
+    @include fontsize(md);
+  }
+
+  @else if $font==motiva {
+    font-family: "Motiva", Helvetica, Arial, sans-serif;
+  }
+
+  @else if $font==motiva_italic {
+    font-family: "Motiva-Italic", Helvetica, Arial, sans-serif;
+  }
+
+  @else if $font==motiva_bold {
+    font-family: "Motiva-Bold", Helvetica, Arial, sans-serif;
+  }
+
+  @else if $font==motiva_bold_italic {
+    font-family: "Motiva-Bold-Italic", Helvetica, Arial, sans-serif;
+  }
+
+  @else if $font==motiva_black {
+    font-family: "Motiva-Black", Helvetica, Arial, sans-serif;
+  }
+
+  @else if $font==motiva_black_italic {
+    font-family: "Motiva-Black-Italic", Helvetica, Arial, sans-serif;
+  }
+
+  @else if $font==motiva_medium {
+    font-family: "Motiva-Medium", Helvetica, Arial, sans-serif;
+  }
+
+  @else if $font==motiva_medium_italic {
+    font-family: "Motiva-Medium-Italic", Helvetica, Arial, sans-serif;
+  }
+
+  @else if $font==motiva_extra_bold {
+    font-family: "Motiva-Extra-Bold", Helvetica, Arial, sans-serif;
+  }
+
+  @else if $font==motiva_extra_bold_italic {
+    font-family: "Motiva-Extra-Bold-Italic", Helvetica, Arial, sans-serif;
+  }
+
+  @else if $font==motiva_light {
+    font-family: "Motiva-Light", Helvetica, Arial, sans-serif;
+  }
+
+  @else if $font==motiva_light_italic {
+    font-family: "Motiva-Light-Italic", Helvetica, Arial, sans-serif;
+  }
+
+  @else if $font==handwriting {
+    font-family: "Rocket-Clouds", serif;
+  }
+
+  @else if $font==handwriting_italic {
+    font-family: "Rocket-Clouds-Italic", serif;
+  }
+
+  @else if $font==code {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  }
+
+  @else {
+    font-family: "Motiva", "Helvetica", Arial, sans-serif;
+    color: $black;
+    @include fontsize(md);
+  }
+}
+
+// Common Variables & Mixins
+
+@mixin box-shadow {
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.3);
+}
+
+@mixin border-radius {
+  border-radius: 16px;
+}
+
+// Animations
+
+// Easing variables
+$rubber_easing: cubic-bezier(0.175, 0.885, 0.335, 1.05);
+$standard_easing: ease-in-out;
+
+
+@mixin slide ($start, $end) {
+  @keyframes slide {
+    0% {
+      transform: translateX($start);
+    }
+
+    100% {
+      transform: translateX($end);
+    }
+  }
+}
+
+@mixin rotate($degrees) {
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate($degrees);
+    }
+  }
+}
+
+@mixin glow {
+  @keyframes glow {
+
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: .4;
+    }
+  }
+}
+
+
+@mixin float {
+  @keyframes float {
+    0% {
+      transform: translateY(1px);
+    }
+
+    25% {
+      transform: translateY(0px);
+    }
+
+    50% {
+      transform: translateY(-3px);
+    }
+
+    100% {
+      transform: translateY(1px);
+    }
+  }
+}
+
+@mixin ripple {
+  @keyframes ripple {
+    from {
+      opacity: 0.4;
+      transform: scale(0);
+    }
+
+    to {
+      opacity: 0;
+      transform: scale(10);
+    }
+  }
+}
+
+@mixin jiggle {
+  @keyframes jiggle {
+
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+
+    12.5%,
+    62.5% {
+      transform: translate3d(-4px, 0, 0);
+    }
+
+    37.5%,
+    87.5% {
+      transform: translate3d(4px, 0, 0);
+    }
+  }
+}
+
+@mixin shake {
+  @keyframes shake {
+    0% {
+      transform: rotate(-3deg)
+    }
+
+    1.68421% {
+      transform: rotate(3deg)
+    }
+
+    2.10526% {
+      transform: rotate(6deg)
+    }
+
+    3.78947% {
+      transform: rotate(-6deg)
+    }
+
+    4.21053% {
+      transform: rotate(-6deg)
+    }
+
+    5.89474% {
+      transform: rotate(6deg)
+    }
+
+    6.31579% {
+      transform: rotate(6deg)
+    }
+
+    8% {
+      transform: rotate(-6deg)
+    }
+
+    8.42105% {
+      transform: rotate(-6deg)
+    }
+
+    10.10526% {
+      transform: rotate(6deg)
+    }
+
+    10.52632% {
+      transform: rotate(6deg)
+    }
+
+    12.21053% {
+      transform: rotate(-6deg)
+    }
+
+    12.63158% {
+      transform: rotate(-6deg)
+    }
+
+    14.31579% {
+      transform: rotate(6deg)
+    }
+
+    15.78947% {
+      transform: rotate(0deg)
+    }
+
+    100% {
+      transform: rotate(0deg)
+    }
+  }
+}
+
+@mixin spin {
+  @keyframes spin {
+    0% {
+      transform: rotate(360deg);
+    }
+
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+}
