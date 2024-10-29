@@ -10,8 +10,9 @@ import { withState } from '$ustoreinternal/services/withState'
 import { UStoreProvider } from '@ustore/core'
 import { formatNumByLocale } from '$ustoreinternal/services/utils'
 import { t } from '$themelocalization'
+import { Badge } from './StaplesUI/Badge/Badge'
 
-export const Price = ({ model, isMinimumPrice, state, showCurrency = true, overridePriceFormat = '' }) => {
+export const Price = ({ model, isMinimumPrice, state, showCurrency = true, overridePriceFormat = '', showOriginalPriceAndBadge = false, discountRate='0' }) => {
   const { currentStore, currentCurrency, currentCulture } = state
 
   if (!currentStore || !currentCurrency || !currentCulture || !model || Number.isNaN(model.Price) || Number.isNaN(model.Tax)) { return '' }
@@ -35,18 +36,41 @@ export const Price = ({ model, isMinimumPrice, state, showCurrency = true, overr
 
   // if Price === -1 then it means that Excel is invalid or cannot perform the calculation - show NA instead.
   const isPriceValid = (price !== -1)
-
+  const originalPrice = calculateOriginalPrice(priceDisplayString, discountRate);
+  const originalPriceString = originalPrice && formatForCurrencyAndCulture(originalPrice, formatParams)
   // new Intl.NumberFormat(currentCulture.LanguageCode).format(priceDisplayString)
+  // removed price-currency from: {showCurrency && <span className='price-currency'>{formatParams.code}</span>}
   return (
     <span className="price-display">
       {
         isPriceValid && isMinimumPrice &&
         <span className="minimum-price-notation">{t('ProductItem.From_Price')}<span>&nbsp;</span></span>
       }
-      <span className="price">{isPriceValid ? priceDisplayString : 'N/A'} {showCurrency && <span className='price-currency'>{formatParams.code}</span>}</span>
+      <span className="price">{isPriceValid ? priceDisplayString : 'N/A'} {showCurrency}</span>
+      {showOriginalPriceAndBadge && originalPrice && <span className="originalPrice">{originalPriceString}</span>}
+      {showOriginalPriceAndBadge && originalPrice && <div className="discount-rate-badge-container"><Badge>{`${discountRate}% off`}</Badge></div>}
     </span>
   )
 }
+
+const calculateOriginalPrice = (discountedPrice, discountRateStr) => {
+  try {
+    let numericDiscountedPrice = parseFloat(discountedPrice.replace("$", "").replace(/,/g, ""));
+  let numericDiscountRate = parseFloat(discountRateStr);
+  if (isNaN(numericDiscountedPrice) || isNaN(numericDiscountRate)) {
+      return false;
+    }
+    if (numericDiscountRate < 0 || numericDiscountRate > 100) {
+      return false;
+    }
+    let decimalDiscountRate = numericDiscountRate / 100;
+    let originalPrice = numericDiscountedPrice / (1 - decimalDiscountRate);
+    return originalPrice;
+  } catch(e) {
+    return false
+  }
+}
+
 
 // format the given amount to a string according to the passed definitions of currency an culture
 const formatForCurrencyAndCulture = (amount, formatParams) => {

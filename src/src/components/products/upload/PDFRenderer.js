@@ -1,5 +1,5 @@
-import 'pdfjs-dist/build/pdf.worker.mjs'
-import 'pdfjs-dist/web/pdf_viewer.css'
+// import 'pdfjs-dist/build/pdf.worker.mjs'
+// import 'pdfjs-dist/web/pdf_viewer.css'
 import { useState, useEffect, useRef } from 'react'
 import pdfLoader from './pdfLoader'
 import { getImageBlobFromCanvas } from '../../../services'

@@ -1,4 +1,6 @@
 @import "_theme.scss";
+@import "staples.scss"; // SPLS include custom styles for NG pages
+@import "staples_ui.scss"; // SPLS component styles pulled from UI library
 
 .preview {
 
@@ -26,17 +28,22 @@
   top: 0;
 }
 
-@media (max-width: $lg) and (min-width: $md) {
+.connect .product-instance .left .proof-container {
+  height: calc(100% - 275px);
+}
+
+@media (max-width: $lg) and (min-width: $md){
   .connect .product-instance .right .product-details {
     padding-top: 60px;
   }
 
-  .connect .product-instance.product-layout .main-wrapper .main-carousel-wrapper {
-    margin-top: 60px;
+  .connect .product-instance.product-layout .main-wrapper .left .left-container .main-carousel-wrapper {
+    height: calc(70vh); // SPLS added height calc
   }
 
   .connect .product-instance.product-layout .main-wrapper .left {
     margin-top: 0;
+    height: calc(100vh); // SPLS added height calc
   }
 }
 
@@ -54,7 +61,7 @@
   .price-top-marker {
     height: 20px;
     position: absolute;
-    width: 10px;
+    width:10px;
     z-index: 2;
     margin-top: -40px;
     min-width: 10px !important;
@@ -62,7 +69,7 @@
       margin-top: calc(-70px - var(--header-height-desktop));
     }
     @media (min-width: $sm) and (max-width: $md) {
-      margin-top: -70px;
+      margin-top: -70px ;
     }
   }
   @media (max-width: $md) {
@@ -78,39 +85,24 @@
 
   .price-bottom-marker {
     position: relative;
-    bottom: 80px;
+    bottom:80px;
     height: 20px;
-    max-width: 10px !important;
+    min-width: 10px !important;
   }
 
   &.product-layout {
     .main-wrapper {
-      position: relative;
       .left {
         padding: 0;
-        margin: 0 60px;
-
-        @media (min-width: $md) and (max-width: $lg) {
-          margin: 0 30px;
-        }
+        background-color: var(--color-fill);
+        height: calc(100vh - 60px); // SPLS added height calc
 
         .main-carousel-wrapper .image-carousel-wrapper .image-wrapper .image img {
           object-fit: unset;
         }
 
         .image-carousel-wrapper {
-          height: calc(100vh - 270px - var(--header-height-desktop));
-          min-height: 100px;
-
-          @media (min-width: $md) and (max-width: $lg) {
-            height: calc(100vh - 270px - var(--search-height) - 50px);
-          }
-        }
-        @media (min-width: $lg + 1) {
-          padding-top: 60px;
-        }
-        @media (min-width: $md) and (max-width: $lg) {
-          padding-top: 30px;
+          height: calc(70vh - 40px);
         }
       }
 
@@ -126,15 +118,8 @@
         width: 80%;
 
         &.desktop {
-          margin-top: 15px;
+          margin: 30px 0 60px 0;
           display: flex;
-
-          @media (max-width: $md) {
-            position: relative;
-            left: 20px;
-            top: -20px;
-            width: 30px;
-          }
 
           .view-proof {
             cursor: pointer;
@@ -147,37 +132,38 @@
             div {
               display: inline-block;
             }
-
-            @media (max-width: $md) {
-              .view-proof-title {
-                display: none;
-              }
-            }
           }
+        }
+
+        &.mobile {
+          position: relative;
+          left: 60px;
+          top: calc(50vh + 10px);
+          width: auto;
         }
       }
 
       .proof-preview-failure {
         position: absolute;
+        top: calc(50% - 140px);
         left: calc(50% - min(130px, 50%));
-        top: 50%;
-        transform: translateY(-50%);
 
         @media (max-width: $md) {
+          top: calc(var(--header-height-mobile) + var(--search-height) + 28vh);
           left: calc(50% - 130px);
         }
       }
 
       .main-carousel-wrapper {
-        @media (min-width: $md) {
-          height: auto;
-        }
-
-        @media (min-width: $md) and (max-width: $lg) {
-          margin-top: calc(var(--search-height) + 50px);
-        }
+        height: calc(70vh); // SPLS added height calc
       }
-
+      &.no-thumbs {
+            position: relative;
+            top: 20px;
+            left: 30px;
+            justify-content: center;
+            display: flex;
+      }
       &.dynamic {
         .left-container {
           display: flex;
@@ -196,16 +182,14 @@
           }
           position: relative;
         }
-
         .main-carousel-wrapper {
-
+	        padding: 0 20px;
           @media (min-width: $md) {
             height: calc(100% - 60px);
           }
 
           .image-carousel-wrapper {
             height: auto;
-
             .image-wrapper .image img {
               max-height: 100%;
               position: absolute;
@@ -246,7 +230,7 @@
         }
 
         right {
-          & > div {
+          &> div {
             min-width: 280px;
 
             @media (min-width: $lg) {
@@ -264,8 +248,8 @@
             }
 
             .proof-preview-failure {
-              left: 50%;
-              top: calc(50% - 30px);
+              left:50%;
+              top:calc(50% - 30px);
               transform: translate(-50%, -50%);
             }
           }
@@ -312,6 +296,14 @@
     .hidden {
       display: none;
     }
+    iframe {
+      height: 100px;
+      // width: 600px;
+
+      @media (max-width: $md) {
+        width: 100%;
+      }
+    }
 
     @media (min-width: $md) and (max-width: $lg) {
       height: 100%;
@@ -323,7 +315,7 @@
 
     @media (min-width: $md) {
       .main-carousel-wrapper .image {
-        height: 45vh;
+      height: 45vh !important;
       }
 
     }
@@ -358,37 +350,40 @@
     }
 
     .block {
-      margin-left: 60px;
-      margin-right: 60px;
+      margin-left: 24px;
+      margin-right: 24px;
 
-      @media (max-width: $md) {
-        margin-left: 20px;
-        margin-right: 20px;
-      }
+     // SPLS JLA removed 062823 for full-page static view
+     //@media (min-width: $lg) {
+     //   width: 600px;
+     // }
 
-      @media (min-width: $md) and (max-width: $lg) {
-        margin-left: 30px;
-        margin-right: 30px;
-      }
+    //  @media (min-width: $xs) and (max-width: $md) {
+    //     margin-left: 20px;
+    //     margin-right: 20px;
+    //   }
     }
 
     .product-details {
       @extend .block;
-      padding-top: 60px;
+      padding-top: 45px;
 
       @media (min-width: $md) and (max-width: $lg) {
         padding-bottom: 0;
-        padding-top: 30px;
       }
 
       @media (max-width: $md) {
-        padding-top: 20px;
+        padding-top: 24px;
         padding-bottom: 0;
       }
 
       .product-name {
-        margin-bottom: 30px;
-        color: var(--text-color-ultra-dark);
+        margin-bottom: 20px;
+        color: var(--spls-black);
+        font-family: var(--spls-product-font-family);
+        font-size: var(--spls-product-font-size);
+        font-weight: var(--spls-product-font-weight);
+        line-height: var(--spls-product-line-height);
       }
 
       .product-description {
@@ -404,8 +399,9 @@
 
     .product-instance-price {
       position: relative;
-      margin-bottom: 30px;
       @extend .block;
+
+      margin-bottom: 30px;
     }
 
     .price-wrapper {
@@ -413,15 +409,11 @@
     }
 
     .total-price {
-      font-size: var(--text-size-h2);
-      color: var(--text-color-ultra-dark);
-      min-height: 45px;
-      display: flex;
-      align-items: center;
-
-      @media (max-width: $md) {
-        line-height: var(--text-size-h2);
-      }
+      // SPLS modified or added below styles
+      color: var(--spls-black);
+      font-size: var(--spls-price-font-size);
+      font-family: var(--spls-price-font);
+      font-weight: var(--spls-price-font-weight);
 
       .minimum-price-notation {
         font-size: var(--text-size-regular);
@@ -430,6 +422,21 @@
 
       .price-currency {
         font-size: var(--text-size-h4);
+      }
+
+      .originalPrice {
+        color: #666;
+        font-size: 16px;
+        font-family: var(--spls-font-light);
+        background-color: transparent;
+        background-image: repeating-linear-gradient(163deg, transparent 0%, transparent 48%, black 50%, transparent 52%, transparent 100%);
+        vertical-align: middle;
+      }
+
+      .discount-rate-badge-container {
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 10px;
       }
 
       .loading-dots {
@@ -442,9 +449,15 @@
     }
 
     .image-carousel-mobile {
+      height: 50vh;
       position: relative;
+      @media screen and (min-width: 768px) {
+        display: none;
+      }
 
       .main-carousel-wrapper {
+        margin-top: 0;
+        height: unset;
 
         .image-carousel-wrapper {
           padding-bottom: 20px;
@@ -461,11 +474,27 @@
       @media (max-width: $md) {
         display: block;
         width: 100%;
-        margin: 20px 0 0 0;
+        margin: 20px 0 45px;
 
-        div:not(.image):not(.thumbnail-title-wrapper):not(.img-zoomed):not(.view-proof-wrapper.mobile):not(.carousel-dots-loader):not(.loading-dots):not(.loading-dot) {
-          height: unset;
-          //width: 100%;
+        .imageCarousel-component {
+          height: 500px;
+
+          .carousel-arrows {
+            .images-wrapper {
+              margin: 0;
+              width: 100%;
+            }
+
+            .arrows {
+              display: none;
+            }
+          }
+
+          .image-zoom .scroll-wrapper.contained img {
+            max-height: calc(500px - 94px);
+            max-width: 100%;
+            object-fit: contain;
+          }
         }
       }
     }
@@ -479,10 +508,14 @@
 
     .product-instance-wizard {
       @extend .block;
+      padding-bottom: 30px;
 
       .product-instance-properties {
         .quantity-label {
-          color: var(--text-color-dark);
+          font-family: var(--spls-category-font-family);
+          font-size: var(--spls-category-font-size);
+          font-weight: var(--spls-category-font-weight);
+          color: var(--spls-black);
         }
 
         .product-quantity-component {
@@ -501,12 +534,12 @@
     .static-delivery-method {
       @extend .block;
       margin-bottom: 30px;
-      margin-top: 30px;
     }
 
     .static-order-summary {
       @extend .block;
 
+      // width: 600px;
       margin-bottom: 30px;
 
       @media (min-width: $md) and (max-width: $lg) {
@@ -521,29 +554,47 @@
         width: 100%;
       }
     }
-
     .add-to-cart-button-wrapper {
+      // SPLS adjustments to this style for new static layout
       position: relative;
-      z-index: 1;
-      @media (min-width: $lg) {
-        width: fit-content;
+      margin-left: 24px;
+      margin-right: 24px;
+      // max-width: 600px;
+      display: flex;
+      @media (max-width: $md) {
+        margin-left: 20px;
+        margin-right: 20px;
       }
     }
-
     .add-to-cart-button {
+      // SPLS adjustments to this style for new static layout
       @extend .block;
 
       height: 45px;
-      margin-bottom: 110px;
-
-      @media (min-width: $md) and (max-width: $lg) {
-        margin-bottom: 100px;
-        width: calc(100% - 120px);
+      margin: 0 0 0 6px;
+      width: 18%;
+      font-family: var(--spls-font-med); // SPLS added font-family
+      &.add-to-cart-button-static {
+        @media (max-width: $sm) {
+          margin: 0 0 0 6px;
+        }
+        margin: 0 auto 0 10%;
       }
+    }
 
-      @media (max-width: $md) {
-        margin-bottom: 100px;
-        width: calc(100% - 40px);
+    .add-to-cart-button[disabled] {
+      pointer-events: none;
+      cursor: auto;
+      background-color: #ddd;
+      box-shadow: none;
+      border: none;
+      &:hover:not(:active) { 
+        background-color: #ddd;
+        box-shadow: none;
+      }
+      &:active { 
+        background-color: #ddd;
+        box-shadow: none;
       }
     }
 
@@ -561,17 +612,16 @@
   .right {
     iframe {
       height: 100px;
-      width: 600px;
       @media (max-width: $md) {
         width: 100%;
       }
     }
 
-    .block {
-      @media (min-width: $lg) {
-        width: 600px;
-      }
-    }
+    // .block {
+    //   @media (min-width: $lg) {
+    //     width: 600px;
+    //   }
+    // }
   }
 }
 
@@ -598,12 +648,6 @@
       }
     }
 
-  }
-
-  .left {
-    @media (min-width: $lg + 1) {
-      padding-top: 60px;
-    }
   }
 }
 
@@ -680,6 +724,122 @@
 
 .product-instance-proof-modal {
   position: relative;
+}
+
+// 080822 SPLS JLA added for background of date picker input field
+.generic-inner {
+  .form-control {
+  background-color: white !important;
+}
+}
+
+.proof-pdf {
+  height: 100%;
+}
+
+.extra-space {
+  padding-bottom: 60px;
+}
+
+.sstk-mobile {
+  @media screen and (max-width: $md) {
+    display: block;
+    margin: auto 18px 12px;
+    text-align: left;
+  }
+  @media screen and (min-width: ($md + 1)) {
+    display: none;
+  }
+}
+
+.sstk-desktop {
+  @media screen and (max-width: $md) {
+    display: none;
+  }
+  @media screen and (min-width: ($md + 1)) {
+    display: block;
+  }
+}
+
+.spinner_view_mask {
+  left: 0;
+  position: fixed;
+  width: 61.67%;
+  height: calc(100vh - 130px);
+  background-color: rgba(0, 0, 0, .5);
+  opacity: 1;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.spinner_view_mask_hide {
+  display: none;
+}
+
+.spinner_center {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  z-index: 200;
+  margin: -25px 0 0 -50px;
+}
+
+.new-preview-mobile {
+  background-color: var(--color-fill);
+}
+
+
+.new-preview-desktop {
+  @media screen and (max-width: $md) {
+    display: none;
+  }
+  @media screen and (min-width: ($md + 1)) {
+    display: block;
+  }
+}
+
+.icon-size{
+  @media screen and (max-width: $md) {
+    display: none;
+  }
+  @media screen and (min-width: ($md + 1)) {
+    display: block;
+  }
+}
+
+.blank-canvas-error-div {
+  margin: 20px 0;
+}
+
+.blank-canvas-div {
+  margin: 40px 0 0;
+}
+
+.manage-file-drawer-content {
+  font-size: 16px;
+}
+
+.manage-file-drawer-btn-container {
+  display: flex;
+  justify-content: end;
+}
+
+.drawer_footer {
+  display: flex;
+  align-items: center;
+}
+
+.tooltiptext {
+  position: relative;
+  width: 260px;
+  bottom: 240px;
+  background-color: white;
+  // color : '#fff';
+  padding: 5px;
+  border-radius: 3px;
+  font-size: 12px;
+  border: 1px solid black;
+  display: none; // Initially hidden
 }
 
 .mobile-product {

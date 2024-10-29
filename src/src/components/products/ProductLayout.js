@@ -22,6 +22,9 @@ const ProductLayout = ({ className, children, dynamic, upload }) => {
       </div>
       <div className='right'>
         {children.find((child) => { return child.type === 'right' })}
+        <div className='sticky-price_new'>
+          {children.find((child) => { return child.type === 'sticky' })}
+        </div>
       </div>
       </PDFViewerProvider>
     </div>

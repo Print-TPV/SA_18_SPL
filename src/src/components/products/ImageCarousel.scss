@@ -3,8 +3,15 @@
 .main-carousel-wrapper {
 
   position: relative;
-  width: 100%;
-  height: 100%;
+  //width: 100%;
+  // height: 80%;
+  // SPLS added below styles
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    // height: 100vh;
+    padding: 20px 0px 30px 0px;
 
   .carousel-dots-loader {
     position: absolute;
@@ -51,7 +58,7 @@
     position: relative;
     overflow: hidden;
     margin: 0 auto;
-    height: 100%;
+    // height: 100%;
 
     div:not(.image):not(.thumbnail-title-wrapper):not(.img-zoomed) {
       height: 100%;
@@ -70,10 +77,11 @@
       align-items: center;
       justify-content: center;
       position: relative;
-      background-color: #ffffff;
+      // background-color: #ffffff;
 
       img {
         border: var(--image-border-width) solid var(--image-border-color);
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
       }
 
       .img-zoomed {
@@ -89,12 +97,18 @@
         object-fit: contain;
         display: flex;
 
+        @media (max-width: $md) {
+          height: 100%;
+          width: 100%;
+        }
 
         img {
           box-sizing: border-box;
           margin: auto;
           max-width: 100%;
           max-height: 100%;
+          width: auto;
+          height: auto;
         }
       }
     }

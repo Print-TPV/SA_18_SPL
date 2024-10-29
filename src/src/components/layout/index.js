@@ -1,12 +1,13 @@
 import React, { Component, createRef } from 'react'
 import HeadSEO from './HeadSEO'
 import Header from './Header'
-import Footer from './Footer'
+// import Footer from './Footer'
 import './Layout.scss'
-import CookiesRibbon from "./CookiesRibbon";
+// import CookiesRibbon from "./CookiesRibbon";
 import ResizeObserver from "resize-observer-polyfill"
 import RouteChangeListener from './RouteChangeListener'
 import { FontStyles } from '../../styles/fonts'
+import { isServer } from '../../ustore-internal/services/utils'
 /**
  * The main page wrapper - contains the Header and Footer and gets children as the main content
  *
@@ -19,7 +20,8 @@ class Layout extends Component {
   constructor() {
     super();
 
-    this.isConnectStore = false
+    this.isConnectStore = true // SPLS - switch condition to always assume connect store
+
     this.resizeObserver = null;
     this.resizeElement = createRef()
   }
@@ -41,15 +43,16 @@ class Layout extends Component {
   }
 
   render() {
+
     const { state, children, className } = this.props
 
     const storeType = (state && state.currentStore) ? state.currentStore.StoreType : null
-    if (storeType === 3) {
-      // connect store - hide header and footer.
-      this.isConnectStore = true
+    if (storeType == 1 || storeType == 2) {
+      // if NOT connect store - hide header and footer.
+      this.isConnectStore = false
     }
 
-    if (this.isConnectStore) {
+    if (this.isConnectStore && !isServer()) {
       if (this.resizeObserver) this.resizeObserver.disconnect();
 
       this.resizeObserver = new ResizeObserver(this._debounce(300, function (entries) {
@@ -72,19 +75,22 @@ class Layout extends Component {
     }
 
     let isPreviewMode = false
-    let url = ''
-    try {
-      // wrapping in try catch so that in cross-domain (connect store) it will be ignored.
-      url = window.top.location.href
-    } catch (error) { }
+    if (!isServer()) {
+      let url = ''
+      try {
+        // wrapping in try catch so that in cross-domain (connect store) it will be ignored.
+        url = window.top.location.href
+      } catch (error) { }
 
-    if (url && (url.includes('MobilePreview.aspx') || url.includes('ThemeCustomization.aspx')))
-      isPreviewMode = true
+      if (url && (url.includes('MobilePreview.aspx') || url.includes('ThemeCustomization.aspx')))
+        isPreviewMode = true
+    }
 
     const showHeaderFooter = storeType === 4 ?
       state.currentStore.Attributes.find(attr => attr.Name === 'ShowHeaderAndFooter' && attr.Value === 'True') :
       (!this.isConnectStore || isPreviewMode)
 
+    // SPLS altered below to add main-container div and remove cookie consent
     return (
       <div>
         <HeadSEO {...state} />

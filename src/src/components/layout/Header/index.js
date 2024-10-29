@@ -13,6 +13,7 @@ import { MobileMenu } from './MobileMenu'
 import Search from './Search'
 import theme from '$styles/_theme.scss'
 import './Header.scss'
+import { isServer } from '../../../ustore-internal/services/utils'
 
 const getCartUrl = (currentStore) => {
   const { cartUrl } = themeContext.get()
@@ -34,7 +35,7 @@ const Header = ({ customState, currencies, cultures, currentCulture, currentUser
 
   const { categoriesTree, userOrdersSummary } = customState
 
-  const variableForLogoImg = window.matchMedia(`(min-width: ${theme.lg})`).matches ? '--logo-image' : '--logo-image-mobile'
+  const variableForLogoImg = isServer() ? '--logo-image' : window.matchMedia(`(min-width: ${theme.lg})`).matches ? '--logo-image' : '--logo-image-mobile'
   const currentLogo = getVariableValue(variableForLogoImg, require(`$assets/images/logo.png`), true)
 
   return (<div className="header">

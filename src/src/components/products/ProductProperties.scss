@@ -169,7 +169,7 @@
 
   .duc-wrapper {
     max-width: 600px;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     &.hidden {
       display: none;
     }
@@ -1020,7 +1020,7 @@
             color: var(--text-color-medium);
             font-size: var(--text-size-fineprint);
             display: -webkit-box;
-            -webkit-line-clamp: 2;
+            -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;

@@ -6,11 +6,11 @@ import { Modal } from "../StaplesUI/Modal/Modal";
 import { NotificationBubble } from '../StaplesUI/NotificationBubble/NotificationBubble';
 import { DoubleIcon } from '../StaplesUI/Icon/DoubleIcon';
 import { Icon } from '../StaplesUI/Icon/Icon';
-import SubHeader from '../Layout/Header/SubHeader';
 import { Button } from '../StaplesUI/Button/Button';
 import { TextInput } from '../StaplesUI/TextInput/TextInput';
 import { Link } from '../StaplesUI/Link/Link';
 import isEmpty from 'lodash/isEmpty';
+import SubHeader from '../../layout/Header/SubHeader';
 
 function SstkEditor({openSstkEditorModal,isPriceCalculating, price, showMinimumPrice, sstkProjectId, productHeight, productWidth, productMaxPage, productSafetyMargin, productBleedMargin, setSstkThumbnails, saveProjectTpv, savePdfToProduct, hideCropMarks, lockCanvasDimensions, fileType, sstkProjectName, apiHost, assetCountValue, originalOrderProductId, orderProductId, setShowLoader, showLoader, getUpdatedProjectName, supportEmail, setTpvPropsValue, projectAssetID, pageCountKey, updateProperties, sstkProjectNameKey, isSstkBlankCanvas, sstkBlankCanvas, handleSstkPdf, docRef }) {
     

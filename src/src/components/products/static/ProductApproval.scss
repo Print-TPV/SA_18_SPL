@@ -82,7 +82,7 @@
           }
         }
         .approval-image-wrapper.mobile {
-          padding: 20px;
+          padding: 0 20px 20px 20px;
           margin: 0;
           background-color: var(--color-fill);
         }
@@ -146,7 +146,7 @@
             justify-content: flex-start;
             font-size: var(--text-size-label);
             color: var(--text-color-dark);
-            margin: 20px 0;
+            margin-bottom: 20px;
 
             .checkbox-label {
               vertical-align: top;

@@ -176,3 +176,63 @@ const createNestedDependencyTree = (propertiesFromApi, dependenciesObject, prope
   }
 }
 
+const convertTo24HourFormat_ = (val) => {
+  let hours = parseInt(val.substr(0, 2));
+  if (val.indexOf('am') != -1 && hours == 12) {
+      val = val.replace('12', '0');
+  }
+  if (val.indexOf('pm') != -1 && hours < 12) {
+      val = val.replace(hours, (hours + 12));
+  }
+  return val.replace(/(am|pm)/, '');
+}
+
+export const getPickUpDateUTC_ = (storeWorkingHours, storeDateTime, gmtOffSet) => {
+
+  let pickupDateUTC = ''
+  //this loop is to check store close hours for whole week.If  closeTime != 'Closed' set pickupDateUTC and break the loop.
+  for (let i = 0; i < storeWorkingHours.length; i++) {
+    if (i > 0) {
+      storeDateTime.setDate(storeDateTime.getDate() + 1)
+    }
+    let storeDay = storeDateTime.getDay()
+    // get store offset in msec.It will be current login user offset.If it is a positive value subtract from final pickup date time else add
+    let storeOffset = storeDateTime.getTimezoneOffset() * 60000
+    gmtOffSet = 3600000 * gmtOffSet
+    // Handling Sunday case. In store finder sunday has index=7
+    if (storeDay === 0) {
+      storeDay = 7
+    }
+    storeWorkingHours.forEach(storeHours => {
+      if (storeDay === storeHours.index) {
+        let closeTime = storeHours.closeTime
+        if (closeTime && closeTime != 'Closed') {
+          let pickupTimeHours = convertTo24HourFormat_(closeTime)
+          // 30 min before close time
+          pickupTimeHours = pickupTimeHours - 0.5
+          // pickup time in msec
+          let pickupTimeMSec = pickupTimeHours * 60 * 60 * 1000
+          //creating new date object with time as 00:00:00
+          let newDate = new Date(storeDateTime.toLocaleDateString())
+          //adding pickupTimeMSec to newDate time . Also adjusting login user offset
+          let pickupDateTime = newDate.getTime() + pickupTimeMSec - storeOffset - gmtOffSet
+          // creating new date object with store date and time
+          let storeDateTimePickup = new Date(pickupDateTime)
+          pickupDateUTC = storeDateTimePickup.toISOString()
+        }
+      }
+    })
+    if (pickupDateUTC && pickupDateUTC != '') {
+      break
+    }
+  }
+  return pickupDateUTC
+}
+
+// Return new data time.
+export const calcDateTime_ = (gmtOffSet) => {
+  const sysDate = new Date();
+  let utc = sysDate.getTime() + (sysDate.getTimezoneOffset() * 60000);
+  let storeDateTime = new Date(utc + (3600000 * gmtOffSet));
+  return storeDateTime;
+}

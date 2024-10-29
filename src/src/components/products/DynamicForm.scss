@@ -102,3 +102,90 @@
     color: var(--text-color-dark);
   }
 }
+.accordionWrapper{
+  border: 1px solid var(--color-line);
+  border-radius: var(--form-input-border-radius);
+  cursor:pointer;
+
+.galeryListAccordion{
+  display: flex;
+        justify-content: flex-start;
+        text-align: left;
+        align-items: center;
+        padding: 11px;
+        border: 2px solid transparent;
+        width: 100%;
+        background: transparent;
+        position: relative;
+      
+        .content{
+          display:flex;
+          flex-direction: column;
+
+          .name{
+            -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    color: var(--spls-black);
+    display: -webkit-box;
+    font-family: var(--spls-option-font-family) !important;
+    font-size: var(--spls-option-font-size) !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+          }
+          .description{
+            -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    color: var(--spls-black);
+    display: -webkit-box;
+    font-family: var(--spls-opt-subtext-fam) !important;
+    font-size: var(--spls-opt-subtext-size) !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+          }
+        }
+        .imageRadio {
+          width: 50px;
+          min-width: 50px;
+          margin-right: 15px;
+          height: 50px;
+        }
+        &:focus {
+          border-radius: 0 !important;
+        }
+        &:hover {
+          background: var(--color-fill);
+        }
+        &:not(:last-child) {
+          border-bottom: 1px solid var(--color-line);
+        }
+        &:first-child {
+          border-radius: var(--form-input-border-radius) var(--form-input-border-radius) 0 0;
+        }
+
+        &:last-child {
+          border-radius: 0 0 var(--form-input-border-radius) var(--form-input-border-radius);
+        }
+        
+      }
+      .selected{
+        border: var(--spls-option-selected-border-weight) solid var(--spls-option-selected-border) !important;
+    }
+}
+
+.subtitleLayout{
+  display:flex;
+  flex-direction: row;
+  gap:15px;
+
+  .subTitleContent{
+    margin:auto;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    color: var(--spls-black);
+    display: -webkit-box;
+    font-family: var(--spls-opt-subtext-fam) !important;
+    font-size: var(--spls-opt-subtext-size) !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

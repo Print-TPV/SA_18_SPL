@@ -20,7 +20,7 @@ export const FileSetupDetails = ({ isBookletProduct }) => {
             <CreateBookletGuide>
               <span>
                 <b>{'Note: '}</b>{'For details on how to create the booklet, please '}
-                <Link color={'black'} underline={true} customCSS={{ 'display': 'contents' }}
+                <Link color={'black'} underline={true} customCSS={"display: contents"}
                       href={Booklet_Guide}
                       target="_blank">{'download this PDF guide.'}</Link>
               </span>

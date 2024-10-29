@@ -18,9 +18,13 @@
   position: absolute;
 
   .popper-tooltip-inner {
-    width: 200px;
+    max-width: 185px;
     align-items: flex-start;
     position: relative;
+
+    @media (max-width: $md) {
+      min-width: 220px;
+    }
 
     .close-popper {
       position: absolute;
