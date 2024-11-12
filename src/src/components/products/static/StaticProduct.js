@@ -1058,6 +1058,7 @@ const StaticProduct = ({
     return () => {
       stickyDisconnect()
       cleanCustomState()
+      removeEventListenerWrapper();
       window.removeEventListener('beforeunload', cleanCustomState, true)
       window.removeEventListener('assetDetails', getAssetDetails, true)
       window.removeEventListener('uploadFileDetails', getUploadFileDetails, true)
@@ -1663,6 +1664,7 @@ const StaticProduct = ({
   }
 
   const handleAddToCartButtonClick = async () => {
+    removeEventListenerWrapper();
     if (pageState !== State.initial) return
     // Error checking
     const erroProperties = Object.keys(errors);
