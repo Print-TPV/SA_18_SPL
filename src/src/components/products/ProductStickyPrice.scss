@@ -2,15 +2,10 @@
 
 
 .product-sticky-price {
-  width: 96%;
-  display: flex;
   padding: 12px 12px 6px;
-  position: sticky;
-  bottom: 0;
   background: var(--white);
   box-shadow: 1px 1px 4px 0 var(--background-around-popup-color);
   border-left: none;
-  z-index: 1;
 
   .sticky-image-block {
     display: none;
@@ -57,19 +52,9 @@
   }
 
   .sticky-container {
-    @media (max-width: $md) {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    @media (max-width: $sm) {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap-reverse;
-      width: calc(100% - 45px);
-    }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .block-reload {
@@ -106,7 +91,6 @@
     .loading-dots {
       position: absolute;
       align-self: flex-start;
-      margin-top: 27px;
     }
 
     @media (min-width: $xs) and (max-width: $md) {
@@ -236,7 +220,7 @@
 .product-layout .dynamic .right .product-sticky-price {
   .sticky-container {
     @media (min-width: $lg) {
-      max-width: 720px;
+      // max-width: 720px;
     }
   }
   .minimum-price-notation {

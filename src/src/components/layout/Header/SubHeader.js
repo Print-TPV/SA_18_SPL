@@ -17,15 +17,15 @@ import { CookiesManager } from '$ustoreinternal/services/cookies';
 import Price from '../../products/static/Price';
 
 const ProjectDetails = ({ projectName, editProjectName, id, disablePopover, isSimplePrintProduct, downloadProof }) => {
-  
+
   return (
     <div className="project-name">
       <span className="project-name-bold">
-          <span className="project_name">Project name -</span>&nbsp; 
-          <div className="tooltip_wrapper">
-            <span className="heading_small">{projectName} </span>
-            <span className="tooltip_text">{projectName} </span>
-          </div> 
+        <span className="project_name">Project name -</span>&nbsp;
+        <div className="tooltip_wrapper">
+          <span className="heading_small">{projectName} </span>
+          <span className="tooltip_text">{projectName} </span>
+        </div>
       </span>
       <span className="project-name-cursor">
         <Popover
@@ -58,14 +58,18 @@ const ProjectDetails = ({ projectName, editProjectName, id, disablePopover, isSi
   )
 }
 
-function SubHeader({ isPriceLoading, saveDesign, exportDesignComplete, showSaveAndContinueButton, isPriceCalculating, price, showMinimumPrice, closeEditorHandler, isSstkOrSimplePrintProduct, projectName, getUpdatedProjectName, disablePopover, isSimplePrintProduct, downloadProof, orderProductId, isEditCartMode, removeEventListenerWrapper }) {
+function SubHeader({ isPriceLoading, saveDesign, exportDesignComplete, showSaveAndContinueButton, isPriceCalculating, price, showMinimumPrice, closeEditorHandler, isSstkOrSimplePrintProduct, projectName, getUpdatedProjectName, disablePopover, isSimplePrintProduct, downloadProof, orderProductId, isEditCartMode, removeEventListenerWrapper, backButtonHandler, subHeaderProps, fileUploadDiv, fileName, activeDivider }) {
 
   const [showModal, setShowModal] = useState(false);
   const [inputValue, setInputValue] = useState('')
   const [showEditModal, setShowEditModal] = useState(false);
   const [showModalDuringEdit, setShowModalDuringEdit] = useState(false)
-  const [currentBreakpoint, setCurrentBreakpoint]=useState('')
+  const [currentBreakpoint, setCurrentBreakpoint] = useState('')
+  const [activeDividerId, setActiveDividerId]=useState(null)
 
+  useEffect(() => {
+    setActiveDividerId(activeDivider)
+  }, [activeDivider]);
   const breakpointCallback = (breakpoint) => {
     if (breakpoint !== currentBreakpoint) {
       setCurrentBreakpoint(breakpoint);
@@ -76,6 +80,9 @@ function SubHeader({ isPriceLoading, saveDesign, exportDesignComplete, showSaveA
     document.getElementsByClassName("sstk-editor")[0].style.display = "none";
     document.getElementsByTagName("body")[0].style.overflowY = 'visible';
     closeEditorHandler && closeEditorHandler();
+    if(backButtonHandler) {
+      backButtonHandler();
+    }
     // window.history.back()
   };
 
@@ -161,18 +168,44 @@ function SubHeader({ isPriceLoading, saveDesign, exportDesignComplete, showSaveA
     }
     return null;
   }
-  
+
   const getSubHeaderColor = () => {
     const whiteLabel = getWhiteLabel();
     if (whiteLabel) {
-      const type = whiteLabel.split("=")[1]; 
-      return type === 'SWS' || type === 'HIT'; 
+      const type = whiteLabel.split("=")[1];
+      return type === 'SWS' || type === 'HIT';
     }
-    return false; 
+    return false;
   }
+
+  const propertyClickHandler = (property) => {
+    try {
+      if(property.key.toLowerCase().indexOf("upload") > 0 && !fileName) {
+        fileUploadDiv && fileUploadDiv.current && fileUploadDiv.current.focus();
+        const ele = document.getElementById("file_Upload_card");
+        ele.focus();
+        const rightTopElement = document.getElementById("right_section");
+        rightTopElement.scrollIntoView({ behavior:'smooth',inline: 'start' });
+        setTimeout(() => setActiveDividerId(property.key), 800);
+      } else {
+          const element =document.getElementById(property.key)
+          element.scrollIntoView({ behavior:'smooth',inline: 'start' });
+      }
+    } catch(e) {
+      // fail silently
+    }
+  }
+
+  const RenderProperty = ({property}) => {
+    return (<div className={(property.key == activeDividerId) ? 'property_container_active' : 'property_container'} onClick={() => propertyClickHandler(property)}>
+      {(currentBreakpoint == 'lg' || currentBreakpoint == 'md') && <Icon name={property.iconName} size={20} />}
+      <span className='property_label'>{property.label}</span>
+    </div>)
+  }
+
   return (
     <>
-    <Breakpoint
+      <Breakpoint
         onBreakpointChange={breakpointCallback} />
       {showModal ?
         <Modal hasCloseButton showModal={showModal} onClose={closeModal}>
@@ -192,21 +225,21 @@ function SubHeader({ isPriceLoading, saveDesign, exportDesignComplete, showSaveA
         </Modal> : null}
 
       {showModalDuringEdit ?
-      <div className="modal-width">
-        <Modal customCSS={(currentBreakpoint==='lg' || currentBreakpoint==='md') ? 'width:648px' : currentBreakpoint==='sm' ? 'width:601px' : currentBreakpoint==='xs' && 'width:312px'} hasCloseButton showModal={showModalDuringEdit} onClose={closeModalDuringEdit}>
-          <div className="modal-wrapper-second">
-            <h1 className="modal-heading-second">Are you sure you want to leave?</h1>
-            <div className="modal-text-second">Your project may not be saved if you navigate away from this page.</div>
-            <div className="modal-button-wrapper-second">
-              <a className="modal-link-second" onClick={closeModalDuringEdit}>Back to my project</a>
-              <Button onClickHandler={handleDuringEditModalLeaveButton}>Leave</Button>
+        <div className="modal-width">
+          <Modal customCSS={(currentBreakpoint === 'lg' || currentBreakpoint === 'md') ? 'width:648px' : currentBreakpoint === 'sm' ? 'width:601px' : currentBreakpoint === 'xs' && 'width:312px'} hasCloseButton showModal={showModalDuringEdit} onClose={closeModalDuringEdit}>
+            <div className="modal-wrapper-second">
+              <h1 className="modal-heading-second">Are you sure you want to leave?</h1>
+              <div className="modal-text-second">Your project may not be saved if you navigate away from this page.</div>
+              <div className="modal-button-wrapper-second">
+                <a className="modal-link-second" onClick={closeModalDuringEdit}>Back to my project</a>
+                <Button onClickHandler={handleDuringEditModalLeaveButton}>Leave</Button>
+              </div>
             </div>
-          </div>
 
-        </Modal> </div>: null}
+          </Modal> </div> : null}
       <div className="header-sub" id="header-sub">
-        <div className={`${getSubHeaderColor()?'header-bg-grey':'header-bg'} sub-container sub-container-box-shadow`}>
-          <div className={`${getSubHeaderColor()?"header-bg-grey":"header-bg"} header-subleft`} onClick={onClickBackLink}><BackArrow width="15px" height="15px" /><span className="back-text">Back</span></div>
+        <div className={`${getSubHeaderColor() ? 'header-bg-grey' : 'header-bg'} sub-container sub-container-box-shadow`}>
+          <div className={`${getSubHeaderColor() ? "header-bg-grey" : "header-bg"} header-subleft`} onClick={onClickBackLink}><BackArrow width="15px" height="15px" /><span className="back-text">Back</span></div>
           {isSstkOrSimplePrintProduct && !showSaveAndContinueButton ? (
             <ProjectDetails projectName={projectName} editProjectName={editProjectName} id={'popover'} disablePopover={disablePopover} isSimplePrintProduct={isSimplePrintProduct} downloadProof={downloadProof ? handleDownloadProof : ''} />
           ) : null}
@@ -265,25 +298,27 @@ function SubHeader({ isPriceLoading, saveDesign, exportDesignComplete, showSaveA
             <div className="edit-left">
               {showSaveAndContinueButton ? (
                 <ProjectDetails projectName={projectName} editProjectName={editProjectName} id={'sstk-popover'} disablePopover={disablePopover} isSimplePrintProduct={isSimplePrintProduct} downloadProof={downloadProof ? handleDownloadProof : ''} />
-              ) : null}
+              ) : <></>}
             </div>
             <div className="edit-right">
 
               {showSaveAndContinueButton ?
                 <div>
-                 {/* <Button variant="secondary" onClickHandler={saveDesign}>Save project</Button>*/}
+                  {/* <Button variant="secondary" onClickHandler={saveDesign}>Save project</Button>*/}
                   <Button onClickHandler={exportDesignComplete}>Continue</Button>
                 </div>
 
                 : null}
-              <div className="edit-price">
-                {isPriceLoading ?
-                  <LoadingDots /> :
-                  <Price
-                    isPriceCalculating={isPriceCalculating}
-                    price={price} showMinimumPrice={showMinimumPrice}
-                  />}
-              </div>
+              {showSaveAndContinueButton ?
+                <div className="edit-price">
+                  {isPriceLoading ?
+                    <LoadingDots /> :
+                    <Price
+                      isPriceCalculating={isPriceCalculating}
+                      price={price} showMinimumPrice={showMinimumPrice}
+                    />}
+                </div> : <></>}
+                {subHeaderProps && subHeaderProps.length > 0 ? [...subHeaderProps].map((prop, idx) => { return (<RenderProperty key={idx} property={prop} />) }) : <></>}
             </div>
           </div>
         </div>

@@ -1196,3 +1196,21 @@ export const getPagesArrRightSideView = (totalItems, hasDarkFrontCover, hasBindi
   }
   return arr
 }
+
+export const calculateInchesFromPixels = (size) => {
+  if (size && typeof size === 'string' && size.includes("_") && size.includes("x")) {
+    const _s = size.split("_");
+    if (_s.length === 2) {
+      const _px = _s[1].split("x");
+      if (_px.length === 2) {
+        const divisor = 72;
+        return `${_px[0] / divisor}"x${_px[1] / divisor}"`;
+      } else {
+        return size;
+      }
+    } else {
+      return size;
+    }
+  }
+  return size;
+};

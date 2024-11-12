@@ -169,7 +169,7 @@ const StaticProduct = ({
   const [uploadComplete, _setUploadComplete] = useState(true)
   const [uploadError, _setUploadError] = useState(false)
   const [lastViewImageId, setLastViewImageId] = useState(0)
-  const [fileName, _setFileName] = useState('')
+  const [fileName, _setFileName] = useState(null)
   const [showReplaceFileLink, setShowReplaceFileLink] = useState(false)
   const [fileSize, _setFileSize] = useState('')
   const [basePreview, _setBasePreview] = useState(null)
@@ -228,6 +228,8 @@ const StaticProduct = ({
   const { showStickyPrice, stickyConnect, stickyDisconnect } = useSticky(topMarkerRef, bottomMarkerRef, easyUploadTopMarkerRef)
   const topPriceRef = useRef(null)
   const bottomPriceRef = useRef(null)
+  const [activeDivider, setActiveDivider] = useState(null)
+  const [subHeaderProps, _setSubHeaderProps] = useState([]);
   const { addPromise } = useUpdateProperties()
   const navigate = useNavigate()
   const {
@@ -246,8 +248,6 @@ const StaticProduct = ({
   const showToastMsgRef = React.useRef(showToastMsg)
   const showTabErrorRef = React.useRef(showTabError)
   const childRef = React.useRef();
-  const scrollRef = React.useRef();
-  const fileOpRef = React.useRef();
   const drawerRef = React.useRef();
   const fileInputRef = React.useRef(null);
   const replaceFileRef = React.useRef(false);
@@ -255,10 +255,16 @@ const StaticProduct = ({
   const sstkBlankCanvasRef = React.useRef(sstkBlankCanvas);
   const tabSummaryRef = React.useRef(tabSummary)
   const xmPieSAParametersRef = React.useRef(_xmPieSAParameters);
+  const subHeaderPropsRef = React.useRef(subHeaderProps);
 
   const sizeId = Object.keys(propertiesObject).find(formProps => formProps.startsWith('Size')) || ''
   const productModeKey = Object.keys(propertiesObject).find(formProps => formProps.startsWith("product-mode")) || ''
   const currentProductHasSSTK = UStoreProvider.state.get().customState?.currentProductProperties?.JSONSchema?.properties[productModeKey]?.enum?.includes('sstk') || false;
+
+  const setSubHeaderProps = (data) => {
+    subHeaderPropsRef.current = data;
+    _setSubHeaderProps(data);
+  }
 
   const setTempFileList = (data) => {
     tempFileListRef.current = data;
@@ -1201,6 +1207,14 @@ const StaticProduct = ({
     }
   }
 
+  useEffect(() => {
+    if(fileNameRef.current) {
+      manageDividerFileUploadProps(propertiesObject, true)
+    } else {
+      manageDividerFileUploadProps(propertiesObject, false)
+    }
+  }, [fileNameRef.current])
+
   const loadProductDeliveries = async (productFromApi, orderItemId) => {
     if (productFromApi.Configuration.Delivery.Mailing.Enabled) {
       const deliveriesFromApi = await UStoreProvider.api.orders.getDeliveryServices(orderItemId)
@@ -1312,6 +1326,29 @@ const StaticProduct = ({
           }
         } catch (e) {
           //fail silently
+        }
+
+        try {
+          const sections = Object.keys(propertiesFromApi.formData)
+            .filter(prop => prop.startsWith("divider"))
+            .map(prop => {
+              const value = propertiesFromApi.formData[prop];
+              if (value.indexOf("||") >= 0) {
+                const values = value.split("||");
+                return {
+                  key: prop,
+                  label: values[0],
+                  sequence: values[1],
+                  iconName: values[2]
+                }
+              }
+              return null;
+            })
+            .filter(prop => prop)
+            .sort((prop1, prop2) => prop1.sequence - prop2.sequence);
+          setSubHeaderProps(sections);
+        } catch (e) {
+          // fail silently
         }
 
         if (renderNewPreview()) {
@@ -1484,6 +1521,11 @@ const StaticProduct = ({
       } catch (e) {
         //fail silently
       }
+      if(fileNameRef.current) {
+        manageDividerFileUploadProps(updatedPropertiesObject, true)
+      } else {
+        manageDividerFileUploadProps(updatedPropertiesObject, false)
+      }
     } catch (e) {
       console.error(e)
       // Excel template V15.0 error
@@ -1510,6 +1552,18 @@ const StaticProduct = ({
       const element = document.getElementById(fileId);
       if (element) {
         element.style.display = 'none';
+      }
+    } catch (e) {
+      // fail silently
+    }
+  }
+
+  const manageDividerFileUploadProps = (_updatedPropertiesObject, show) => {
+    try {
+      const fileId = getPropertyId("dividerFileUpload_", false, _updatedPropertiesObject);
+      const element = document.getElementById(fileId);
+      if (element) {
+        element.style.display = show ? 'block' : 'none';
       }
     } catch (e) {
       // fail silently
@@ -2309,7 +2363,7 @@ const StaticProduct = ({
         }
       } else if (basePreviewObjRef) {
         const projectName = propertiesRef.current && propertiesRef.current.formData && propertiesRef.current.formData[sstkPropertiesRef.current["sstkProjectName"]];
-        if (projectName === "Untitled project" || projectName === removeFileExtension(fileNameRef.current)) {
+        if (projectName === "Untitled project" || projectName === removeFileExtension(fileNameRef.current ? fileNameRef.current : "")) {
           getUpdatedProjectName(removeFileExtension(_fileName));
         }
         setFileName(_fileName)
@@ -2451,7 +2505,7 @@ const StaticProduct = ({
           const pageCount = basePreviewObjRef.getTotalPages();
           setBasePreview(basePreviewObjRef);
           const projectName = propertiesRef.current && propertiesRef.current.formData && propertiesRef.current.formData[sstkPropertiesRef.current["sstkProjectName"]];
-          if (projectName === "Untitled project" || projectName === removeFileExtension(fileNameRef.current)) {
+          if (projectName === "Untitled project" || projectName === removeFileExtension(fileNameRef.current ? fileNameRef.current : "")) {
             getUpdatedProjectName(removeFileExtension(_fileName));
           }
           setFileName(finalFileNameToAttach);
@@ -3140,6 +3194,53 @@ const StaticProduct = ({
 
   const isNewUpload = product.Type === productTypes.EASY_UPLOAD
 
+  const getPageCountOnSstkBack = () => {
+    try {
+      if(basePreviewRef.current) {
+        return basePreviewRef.current.getTotalPages();
+      }
+    } catch(e) {
+     // fail get Total page silently 
+    }
+    return 1;
+  }
+
+  const scrollHandler = useCallback(throttle(250, () => {
+    try {
+      if(subHeaderPropsRef.current && subHeaderPropsRef.current.length > 0) {
+        let closestSection = null;
+        let closestDistance = -Infinity;
+        [...subHeaderPropsRef.current].filter(prop => {
+          if(prop.key.toLowerCase().indexOf("upload") > 0) {
+            if(fileNameRef.current) {
+              return true;
+            } 
+            return false;
+          }
+          return true;
+        }).map(prop => document.getElementById(prop.key))
+        .sort((ele1, ele2) => ele1.getBoundingClientRect().top - ele2.getBoundingClientRect().top)
+        .forEach((section) => {
+          const offset = section.getBoundingClientRect().top;
+
+          if (offset < 150 && closestDistance < offset) {
+            closestSection = section;
+            closestDistance = offset;
+          }
+        });
+
+        if (closestSection) {
+          setActiveDivider(closestSection.id);
+        } else {
+          setActiveDivider(null)
+        }
+      }
+    } catch(e) {
+      //fail silently
+      console.error("on scroll error")
+    }
+  }), [])
+
   return (
     <>
       <Breakpoint
@@ -3268,10 +3369,14 @@ const StaticProduct = ({
         downloadProof={isReadyToGenerateProof ? downloadProofLinkHandler : ''}
         orderProductId={orderItemRef.current.FriendlyID}
         removeEventListenerWrapper={removeEventListenerWrapper}
+        subHeaderProps={subHeaderProps}
+        fileName={fileName}
+        activeDivider={activeDivider}
         isEditCartMode={xmPieSAParametersRef.current && xmPieSAParametersRef.current.isEditCartMode} />
       <ProductLayout className="product-instance"
         dynamic={product.Type === productTypes.DYNAMIC}
         upload={isNewUpload}
+        onScroll={scrollHandler}
       >
         <left id="custom" className="desktop-product">
           <div className="left-container">
@@ -3321,6 +3426,7 @@ const StaticProduct = ({
                 <SstkEditor
                   openSstkEditorModal={openSstkEditorModal}
                   handleSstkPdf={handleSstkPdf}
+                  getPageCountOnSstkBack={getPageCountOnSstkBack}
                   isPriceCalculating={pageState === State.calculatingPrice || pageState === State.loading}
                   price={price}
                   showMinimumPrice={!!price.IsMinimumPrice}
@@ -3336,6 +3442,7 @@ const StaticProduct = ({
                   productBleedMargin={properties && properties.formData && properties.formData[sstkProperties["bleedMargin"]]}
                   productMaxPage={properties && properties.formData && properties.formData[sstkProperties["documentMaxPages"]]}
                   sstkProjectName={properties && properties.formData && properties.formData[sstkProperties["sstkProjectName"]]}
+                  pageCountValue={properties && properties.formData && properties.formData[sstkProperties["pageCount"]]}
                   assetCountValue={getTpvPropsValue('assetCount')}
                   projectAssetID={getTpvPropsValue('projectAssetID')}
                   originalOrderProductId={getTpvPropsValue('originalOrderProductID')}
@@ -3368,7 +3475,7 @@ const StaticProduct = ({
             {/* <RefreshPreviewButton {...{showRefreshPreview, onProofPreviewClick, disabled: disabledRefreshPreviewButton }}/> */}
           </div>
         </left>
-        <right is="custom">
+        <right is="custom" id="right_section">
           {(renderNewPreview() && (currentBreakpoint === 'smXmpie' || currentBreakpoint === 'xs' || currentBreakpoint === 'xxs')) ? <div className='new-preview-mobile'><DocumentPreview
             propertiesObj={properties}
             getPropertyId={getPropertyId}
@@ -3404,12 +3511,12 @@ const StaticProduct = ({
             </div>
             : null
           }
-          <Price
+          {/* <Price
             isPriceCalculating={pageState === State.calculatingPrice || pageState === State.loading}
             price={price} showMinimumPrice={!!price.IsMinimumPrice}
             showOriginalPriceAndBadge={showOriginalPriceAndBadge()}
             discountRate={getPriceTierValue(properties && properties.formData && properties.formData[sstkProperties["calculatedDiscount"]], properties && properties.formData && properties.formData[sstkProperties["priceTierAndPromo"]], 'rate')}
-          />
+          /> */}
           {/* <div ref={topMarkerRef} className="price-top-marker"></div> */}
           <div className="product-instance-wizard">
             <div id="form-container" className="product-instance-properties product-properties">
@@ -3482,34 +3589,29 @@ const StaticProduct = ({
                 </NotificationBubble>
                 }
               <Slot name="ng_product_below_quantity" data={product} />
-              {fileName && renderNewPreview() &&
-                <FileOperationWizard
-                  fileName={fileName}
-                  fileList={fileList}
-                  selectedFileSource={selectedFileSource}
-                  viewFileDetailsClickHandler={viewFileDetails}
-                  replaceFileClickHandler={replaceFileClickHandler}
-                  addToMyFileClickHandler={addToMyFileClickHandler}
-                  addToMyFileState={addToMyFileState}
-                  manageFileHandler={manageFileHandler}
-                  isMultiFileProduct={isMultiFileProductRef.current}
-                  showReplaceFileLink={showReplaceFileLink}
-                  allowUploadEdit= {xmPieSAParametersRef.current && xmPieSAParametersRef.current.allowUploadEditFiles}
-                  navigateToFileHandler={(pageIndex) => { 
-                    childRef.current && childRef.current.onPageSelect((pageIndex+1));
-                    childRef.current && childRef.current.setResetPagination(true);
-                    childRef.current && childRef.current.setStartIndex(pageIndex + 1);
-                    }} />}
-              {renderNewPreview() &&
-                <FileSetupDetailsAccordion isBookletProduct={isBookletProduct} fileUploaded={fileName ? true : false} />}
               <DynamicForm
                 properties={propertiesObject}
                 excelPricingEnabled={excelPricingEnabled}
                 errors={errors}
+                fileOperationProps={{
+                  fileName: fileName,
+                  fileList: fileList,
+                  selectedFileSource: selectedFileSource,
+                  viewFileDetails: viewFileDetails,
+                  replaceFileClickHandler: replaceFileClickHandler,
+                  addToMyFileClickHandler: addToMyFileClickHandler,
+                  addToMyFileState: addToMyFileState,
+                  manageFileHandler: manageFileHandler,
+                  isMultiFileProductRef: isMultiFileProductRef,
+                  showReplaceFileLink: showReplaceFileLink,
+                  xmPieSAParametersRef: xmPieSAParametersRef,
+                  childRef: childRef,
+                  isBookletProduct: isBookletProduct,
+                  isRenderNewPreview: renderNewPreview()
+                }}
                 onChange={onFormChange}
                 formData={properties.formData}
                 onBlur={handlePropertyBlur}
-                properties={propertiesObject}
                 sectionToOpen={sectionToOpen}
                 sectionsDescription={properties.JSONSchema && properties.JSONSchema.sections}
                 productType={product.Type}
@@ -3622,7 +3724,11 @@ const StaticProduct = ({
               // ref={stickyPriceRef}
               isNewUpload={isNewUpload}
               isNewDocumentMobileView={renderNewPreview() && (currentBreakpoint === 'smXmpie' || currentBreakpoint === 'xs' || currentBreakpoint === 'xxs') ? true : false}
-          />
+              isPriceCalculating={pageState === State.calculatingPrice || pageState === State.loading}
+              price={price}
+              showOriginalPriceAndBadge={showOriginalPriceAndBadge()}
+              discountRate={getPriceTierValue(properties && properties.formData && properties.formData[sstkProperties["calculatedDiscount"]], properties && properties.formData && properties.formData[sstkProperties["priceTierAndPromo"]], 'rate')}
+            />
         </sticky>
       </ProductLayout>
     </>

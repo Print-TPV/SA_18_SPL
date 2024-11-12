@@ -33,7 +33,8 @@ import {
     calculatePaperBackground,
     darkShadeCover,
     getPagesArrLeftSideView,
-    getPagesArrRightSideView
+    getPagesArrRightSideView,
+    calculateInchesFromPixels
 } from '../Simpleprint/PreviewHelper'
 import {
     findNextTabElementIndex, getFont, getFontStyle,
@@ -45,6 +46,7 @@ import QuarterOverlayImage from "../static/QuarterOverlayImage";
 import TabOverlay from "../../../assets/svgs/TabOverlay";
 import { UStoreProvider } from '@ustore/core'
 import { Icon } from '$core-components'
+import StandardOverlayImage from '../static/StandardOverlayImage';
 
 
 function DocumentPreview({currentProductHasSSTK,webGlEnabled,openSstkModal,sizeId, openUploadLocalModelHandler, forwardedRef, basePreview, propertiesObj, getPropertyId, updateProperties, renderSide, currentBreakpoint, previousBasePreview, isBookletProduct, isEdit, orderItem, isMultiFileProduct, productId, isSstkProduct }) {
@@ -523,6 +525,7 @@ function DocumentPreview({currentProductHasSSTK,webGlEnabled,openSstkModal,sizeI
                 : props.pageSize === 'Legal' ? LegalOverlayImage(props)
                     : props.pageSize === 'Statement' ? StatementOverlayImage(props)
                         : props.pageSize === 'Quarter' ? QuarterOverlayImage(props)
+                        : props.pageSize === 'Booklet_288x648' ? StandardOverlayImage(props)
                         : ''
         if (overlayImageArray && Object.keys(overlayImageArray).length > 0) {
             return Array.isArray(overlayImageArray) && overlayImageArray.map(function (imageUrl, index) {
@@ -558,6 +561,8 @@ function DocumentPreview({currentProductHasSSTK,webGlEnabled,openSstkModal,sizeI
                 return calculatePadding(5.5, 8.5)
             case 'Quarter':
                 return calculatePadding(4.25, 5.5)
+            case '288x648':
+                return calculatePadding(4, 9)
             default:
                 return '0%'
         }
@@ -803,7 +808,7 @@ function DocumentPreview({currentProductHasSSTK,webGlEnabled,openSstkModal,sizeI
                                             padding={(currentBreakpoint === 'lg' || currentBreakpoint === 'md' || currentBreakpoint === 'sm') ? 'lg' : 'md'}
                                             borderRadius="lg"
                                             cardCustomCSS={`margin: 0 6px 0 0; padding:20px 16px 20px 16px; height:${currentProductHasSSTK?'210px':'144px'}; position: relative;`}
-                                            
+                                            id="file_Upload_card"
                                             isHover={true}
                                             isBorder={true}
                                             isClickable={true}>
@@ -901,8 +906,8 @@ function DocumentPreview({currentProductHasSSTK,webGlEnabled,openSstkModal,sizeI
                 <Modal hasCloseButton onClose={handleCloseModal}  showModal={true} customCSS={'padding:16px,text-align:end'} >
                 <div className='Modal-spacing'>
                 <div className='Modal-heading'>Create your own</div>
-               <div className={'modal-text text-margin'}>Before the project is started, please confirm the current selections for paper size and orientation as the following:</div> 
-               <div className={'modal-text1 text-margin'}>Paper size: <span className='modal-text-bold'>{pageSize} {pageSize=="Letter"&&'8.5"x11"'|| pageSize=="Ledger"&& '11"x17"'|| pageSize=="Legal"&& '8.5"x14"'}</span></div>
+                <div className={'modal-text text-margin'}>Before the project is started, please confirm the current selections for paper size and orientation as the following:</div>
+                <div className={'modal-text1 text-margin'}>Paper size: <span className='modal-text-bold'>{calculateInchesFromPixels(pageSize)} {pageSize == "Letter" && '8.5"x11"'|| pageSize == "Ledger" && '11"x17"'|| pageSize == "Legal" && '8.5"x14"' || pageSize == "Statement" && '5.5"x8.5"' || pageSize == "Quarter" && '4.25"x5.5"'}</span></div>
                <div className='modal-text1'>Orientation: <span className='modal-text-bold'>{pageOrientation}</span></div>
                <div className='modal-text text-margin'>If you want to change these selections, close this dialog and modify them at the right side of the page.</div>
               

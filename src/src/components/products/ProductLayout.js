@@ -9,7 +9,7 @@ import { PDFViewerProvider } from './upload/PDFViewerContext'
  * @param children
  */
 
-const ProductLayout = ({ className, children, dynamic, upload }) => {
+const ProductLayout = ({ className, children, dynamic, upload, onScroll }) => {
   if (!children) {
     return null
   }
@@ -20,7 +20,7 @@ const ProductLayout = ({ className, children, dynamic, upload }) => {
       <div className='left'>
         {children.find((child) => { return child.type === 'left' })}
       </div>
-      <div className='right'>
+      <div className='right' onScroll={onScroll}>
         {children.find((child) => { return child.type === 'right' })}
         <div className='sticky-price_new'>
           {children.find((child) => { return child.type === 'sticky' })}

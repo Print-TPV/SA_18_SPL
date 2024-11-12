@@ -478,6 +478,9 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  @media (max-width: $lg) {
+    width: 48%;
+  }
 }
 .dropdownItem{
   margin: 12px;
@@ -548,4 +551,28 @@ position: relative;
 .project_name{
   white-space: nowrap;
   align-self: baseline;
+}
+
+.property_container {
+  padding: 8px 16px 8px 16px;
+  border-radius: 28px;
+  cursor: pointer;
+}
+
+.property_container_active {
+  padding: 8px 16px 8px 16px;
+  border-radius: 28px;
+  cursor: pointer;
+  background-color: #E0F7E2;
+}
+.property_label {
+  font-family: Motiva,Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  text-align: center;
+  padding: 8px 0 8px 8px;
+  @media (min-width: $lg) {
+    padding: 8px 8px 8px 8px;
+  }
 }

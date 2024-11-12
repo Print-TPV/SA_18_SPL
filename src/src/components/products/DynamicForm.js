@@ -14,6 +14,8 @@ import { Tooltip } from './StaplesUI/Tooltip/Tooltip'
 import { Breakpoint } from './StaplesUI/Breakpoint/Breakpoint'
 import { Link } from './StaplesUI/Link/Link'
 import { Icon as StaplesIcon } from './StaplesUI/Icon/Icon';
+import FileOperationWizard from './DocumentPreview/FileOperationWizard'
+import { FileSetupDetailsAccordion } from './DocumentPreview/FileSetupDetailsAccordion'
 
 const withCustomProps = (WrappedComponent = {}) => {
   class ConnectedComponent extends React.Component {
@@ -78,7 +80,7 @@ const checkIfPropertyDependersHaveDefaultValueSelected = (property, formData) =>
     checkIfPropertyDependersHaveDefaultValueSelected(property.depended, formData) :
     formData[property.parent] === property.condition.enum[0]
 
-const Property = ({ property, errors, handlePropertyChange, internalFormData, setHover, resetHover, hoverEle, isHover, disableATCForStore, resetAccordionActiveKey, galeryListItems, isWebGLEnabled, altProductLink, currentParentUrl, tabSummary, tabClickHandler, showTabError, productType }) => {
+const Property = ({ property, errors, handlePropertyChange, internalFormData, setHover, resetHover, hoverEle, isHover, disableATCForStore, resetAccordionActiveKey, galeryListItems, isWebGLEnabled, altProductLink, currentParentUrl, tabSummary, tabClickHandler, showTabError, productType, fileOperationProps }) => {
 
   const [selectedListItems, setSelectedListItems] = useState({
     selectedIcons: '',
@@ -222,6 +224,7 @@ const Property = ({ property, errors, handlePropertyChange, internalFormData, se
 
     const WidgetComponent = widgets[property.uiSchema['ui:widget']]
     return (
+      <>
       <div key={property.id}
         id={property.id}
         className={`duc-wrapper 
@@ -335,6 +338,27 @@ const Property = ({ property, errors, handlePropertyChange, internalFormData, se
 
 
       </div>
+      {property.id.indexOf("dividerFileUpload_") >= 0 && <>
+          {fileOperationProps.fileName &&  fileOperationProps.isRenderNewPreview && <FileOperationWizard
+            fileName={fileOperationProps.fileName}
+            fileList={fileOperationProps.fileList}
+            selectedFileSource={fileOperationProps.selectedFileSource}
+            viewFileDetailsClickHandler={fileOperationProps.viewFileDetails}
+            replaceFileClickHandler={fileOperationProps.replaceFileClickHandler}
+            addToMyFileClickHandler={fileOperationProps.addToMyFileClickHandler}
+            addToMyFileState={fileOperationProps.addToMyFileState}
+            manageFileHandler={fileOperationProps.manageFileHandler}
+            isMultiFileProduct={fileOperationProps.isMultiFileProductRef.current}
+            showReplaceFileLink={fileOperationProps.showReplaceFileLink}
+            allowUploadEdit={fileOperationProps.xmPieSAParametersRef.current && fileOperationProps.xmPieSAParametersRef.current.allowUploadEditFiles}
+            navigateToFileHandler={(pageIndex) => {
+              fileOperationProps.childRef.current && fileOperationProps.childRef.current.onPageSelect((pageIndex + 1));
+              fileOperationProps.childRef.current && fileOperationProps.childRef.current.setResetPagination(true);
+              fileOperationProps.childRef.current && fileOperationProps.childRef.current.setStartIndex(pageIndex + 1);
+            }} />}
+          {fileOperationProps.isRenderNewPreview && <FileSetupDetailsAccordion isBookletProduct={fileOperationProps.isBookletProduct} fileUploaded={fileOperationProps.fileName ? true : false} />}
+        </>}
+      </>
     )
   }
   return null
@@ -352,7 +376,7 @@ const getFirstSectionWithErrors = (sections, errors) => {
   return -1
 }
 
-const DynamicForm = ({ errors, excelPricingEnabled, formData, onChange, properties, sectionToOpen, sectionsDescription, productType, isMobile, disableATCForStore, isWebGLEnabled, currentParentUrl, altProductLink, tabSummary, tabClickHandler, showTabError }) => {
+const DynamicForm = ({ errors, excelPricingEnabled, formData, onChange, properties, sectionToOpen, sectionsDescription, productType, isMobile, disableATCForStore, isWebGLEnabled, currentParentUrl, altProductLink, tabSummary, tabClickHandler, showTabError, fileOperationProps }) => {
   const [internalFormData, setInternalFormData] = useState(formData || {})
   const [firstLoad, setFirstLoad] = useState(true)
   const [openSection, setOpenSection] = useState(0)
@@ -479,6 +503,7 @@ const DynamicForm = ({ errors, excelPricingEnabled, formData, onChange, properti
             resetHover={resetHover}
             hoverEle={hoverEle}
             isHover={isHover}
+            fileOperationProps={fileOperationProps}
             disableATCForStore={disableATCForStore}
             internalFormData={internalFormData}
             resetAccordionActiveKey={resetAccordionActiveKey}
@@ -528,6 +553,7 @@ const DynamicForm = ({ errors, excelPricingEnabled, formData, onChange, properti
           resetHover={resetHover}
           hoverEle={hoverEle}
           isHover={isHover}
+          fileOperationProps={fileOperationProps}
           disableATCForStore={disableATCForStore}
           internalFormData={internalFormData}
           resetAccordionActiveKey={resetAccordionActiveKey}

@@ -12,7 +12,7 @@ import { Link } from '../StaplesUI/Link/Link';
 import isEmpty from 'lodash/isEmpty';
 import SubHeader from '../../layout/Header/SubHeader';
 
-function SstkEditor({openSstkEditorModal,isPriceCalculating, price, showMinimumPrice, sstkProjectId, productHeight, productWidth, productMaxPage, productSafetyMargin, productBleedMargin, setSstkThumbnails, saveProjectTpv, savePdfToProduct, hideCropMarks, lockCanvasDimensions, fileType, sstkProjectName, apiHost, assetCountValue, originalOrderProductId, orderProductId, setShowLoader, showLoader, getUpdatedProjectName, supportEmail, setTpvPropsValue, projectAssetID, pageCountKey, updateProperties, sstkProjectNameKey, isSstkBlankCanvas, sstkBlankCanvas, handleSstkPdf, docRef }) {
+function SstkEditor({openSstkEditorModal,isPriceCalculating, price, showMinimumPrice, sstkProjectId, productHeight, productWidth, productMaxPage, productSafetyMargin, productBleedMargin, setSstkThumbnails, saveProjectTpv, savePdfToProduct, hideCropMarks, lockCanvasDimensions, fileType, sstkProjectName, apiHost, assetCountValue, originalOrderProductId, orderProductId, setShowLoader, showLoader, getUpdatedProjectName, supportEmail, setTpvPropsValue, projectAssetID, pageCountKey, updateProperties, sstkProjectNameKey, isSstkBlankCanvas, sstkBlankCanvas, handleSstkPdf, docRef, pageCountValue, getPageCountOnSstkBack }) {
     
     let editorSdk = null;
     let assetToUpload = [];
@@ -29,7 +29,8 @@ function SstkEditor({openSstkEditorModal,isPriceCalculating, price, showMinimumP
     const [projectName, setProjectName] = useState(null)
     const [stockAssetCount, setStockAssetCount] = useState(0)
     const projectAssetIDRef = useRef(projectAssetID);
-     
+    const pageCount = useRef(1);
+
     useEffect(() => {
         projectAssetIDRef.current = projectAssetID;
     }, [projectAssetID])
@@ -103,6 +104,15 @@ function SstkEditor({openSstkEditorModal,isPriceCalculating, price, showMinimumP
                                         .then(asst => asst.json())
                                         .then(design => {
                                             setCurrentDesign(design)
+                                            try {
+                                                const _pageCount = Number(pageCountValue);
+                                                if(!isNaN(_pageCount) && _pageCount > 0) {
+                                                    pageCount.current = _pageCount;
+                                                }
+                                            } catch(e) {
+                                                // page count parsing fail.
+                                                console.error("Error parsing page count.")
+                                            }
                                             // setShowSpinner(false)
                                             // setMessageType(null)
                                         })
@@ -346,11 +356,42 @@ function SstkEditor({openSstkEditorModal,isPriceCalculating, price, showMinimumP
             onRequestAddAssetToCanvas: onRequestAddAssetToCanvasHandler,
             onRequestDeleteAsset: onRequestDeleteAssetHandler,
             onStockContentUpdated: onStockContentUpdatedHandler,
+            onAddPageToDocument: addPageToDocumentHandler,
+            onDeletePageFromDocument: removePageToDocumentHandler,
             onError: onErrorHandler,
             importAsset: newDesignFlow ? null : currentDesign
         };
         await editorSdk.launchEditor(options);
         editorSdk.setUploads(assetToUpload);
+        try {
+            if (!newDesignFlow && pageCountKey && getPageCountOnSstkBack && getPageCountOnSstkBack() != pageCount.current) {
+                updateProperties(pageCountKey, getPageCountOnSstkBack());
+            }
+        } catch(e) {
+            //fail silently with back button handler
+        }
+    }
+
+    const addPageToDocumentHandler = () => {
+        try {
+            pageCount.current++;
+            if (pageCountKey) {
+                updateProperties(pageCountKey, pageCount.current > productMaxPage ? productMaxPage : pageCount.current);
+            }
+        } catch(e) {
+            //fail silently
+        }
+    }
+
+    const removePageToDocumentHandler = () => {
+        try {
+            pageCount.current--;
+            if (pageCountKey) {
+                updateProperties(pageCountKey, pageCount.current <= 0 ? 1 : pageCount.current);
+            }
+        } catch(e) {
+            //fail silently
+        }
     }
 
     const onStockContentUpdatedHandler = (event) => {
@@ -369,7 +410,26 @@ function SstkEditor({openSstkEditorModal,isPriceCalculating, price, showMinimumP
         }
     }
 
-    const getDesignHandler = async (fileType) => {
+    const getDesignHandler = async (fileType, unlicensedImages) => {
+        try {
+            if(unlicensedImages && unlicensedImages.length > 0) {
+                return await _editorSdk.getDesign({
+                    fileType: fileType,
+                    jpegQuality: 'high',
+                    documentWatermarkOptions: {
+                        url: "data:image/png;base64,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",
+                        isTiled: true,
+                        relativeSizePercentage: 25
+                    }
+
+                }).catch(e => {
+                    console.error("Error Design: {}", e)
+                });
+            }
+        } catch(e) {
+            // fail silently
+            console.log("Error exporting unlicensed image and design.")
+        }
         return await _editorSdk.getDesign({
             fileType: fileType,
             jpegQuality: 'medium'
@@ -432,18 +492,26 @@ function SstkEditor({openSstkEditorModal,isPriceCalculating, price, showMinimumP
         });
     }
 
+    const backButtonHandler = () => {
+        try {
+            if (getPageCountOnSstkBack && getPageCountOnSstkBack() != pageCount.current) {
+                updateProperties(pageCountKey, getPageCountOnSstkBack());
+            }
+        } catch(e) {
+            //fail silently with back button handler
+        }
+    }
     const saveDesign = async (isCloseEditor) => {
 
         setShowSpinner(true)
 
         const { FileType } = _editorSdk;
+        const unlicensedImages = await _editorSdk.getUnlicensedAssets();
 
         const currentDesignObj = await exportDesignHandler();
-        const design = await getDesignHandler(FileType.jpg);
-        const designPDF = await getDesignHandler(FileType.pdf);// send to base preview and set the object the base preview of the static document
+        const design = await getDesignHandler(FileType.jpg, unlicensedImages);
+        const designPDF = await getDesignHandler(FileType.pdf, unlicensedImages);// send to base preview and set the object the base preview of the static document
         handleSstkPdf(designPDF, true); // *handle pdf for preview
-
-        const unlicensedImages = await _editorSdk.getUnlicensedAssets();
 
         if (sstkProjectNameKey && sstkProjectName != projectName) {
             updateProperties(sstkProjectNameKey, projectName);
@@ -543,7 +611,7 @@ function SstkEditor({openSstkEditorModal,isPriceCalculating, price, showMinimumP
                                         }
 
                                         setTpvPropsValue(tpvAttributes);
-                                        if (pageCountKey) {
+                                        if (pageCountKey && design.pages.length != pageCount.current) {
                                             updateProperties(pageCountKey, design.pages.length);
                                         }
                                         let promises = [], filePromiseCount = 0;
@@ -884,6 +952,7 @@ function SstkEditor({openSstkEditorModal,isPriceCalculating, price, showMinimumP
                     projectName={sstkProjectName}
                     getUpdatedProjectName={getUpdatedProjectName}
                     disablePopover={showLoader}
+                    backButtonHandler={backButtonHandler}
                 />
                 <div className="edit-container" ref={sstkContainerRef}></div>
             </div>

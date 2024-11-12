@@ -1,10 +1,11 @@
 import React, { forwardRef, useEffect, useState } from 'react'
-import Price from './Price'
+// import Price from './Price'
 import { Icon, LoadingDots } from '$core-components'
 import './ProductStickyPrice.scss'
 import { PDFRenderer } from './upload/PDFRenderer'
 import { usePDFViewer } from './upload/PDFViewerContext'
 import { Button } from './StaplesUI/Button/Button'
+import Price from './static/Price'
 
 const styles = {
   saveProject: `
@@ -19,15 +20,15 @@ const styles = {
     width: 50%;
   `,
   addToCartStatic: `
-    height: 45px;
-    @media screen and (max-width: 767px) { 
-      margin: 12px auto;
+    height: 44px;
+    width: 200px;
+    margin: 12px 50px 12px 0;
+    @media screen and (max-width: 820px) { 
+      width:auto;
     }
-    width: 50%;
-    margin: 12px auto;
   `,
   addToCartNewDocumentMobileView: `
-    height: 45px;
+    height: 44px;
     margin: 4px 16px 4px 16px;
     width: 100%;
   `
@@ -49,7 +50,8 @@ const ProductStickyPrice = forwardRef(({
   properties,
   addToCartDisabled,
   isNewDocumentMobileView,
-  saveProjectForLaterHandler
+  saveProjectForLaterHandler,
+  isPriceCalculating,price, showOriginalPriceAndBadge,discountRate
 }, ref) => {
   const image = (productThumbnails && productThumbnails.Thumbnails && productThumbnails.Thumbnails.length)
     ? productThumbnails.Thumbnails[lastViewImageId ? lastViewImageId : 0] : null;
@@ -64,7 +66,7 @@ const ProductStickyPrice = forwardRef(({
   return (
     <div className='product-sticky-price'>
       <div className="product-sticky-price-error-anchor" />
-      {/* <div className="sticky-container"> */}
+      <div className="sticky-container">
         {/* {image &&
             <div onAnimationEnd={()=> setAnimationClass('')} className="sticky-image-block" onClick={onImageClick}>
               <img className={`${animationClass}`} key={image.Url} height={50} src={image.Url} alt={image.DisplayName}/>
@@ -122,6 +124,13 @@ const ProductStickyPrice = forwardRef(({
           >
             Save Project
           </Button>}*/}
+          <Price
+            isPriceCalculating={isPriceCalculating}
+            price={price} showMinimumPrice={showMinimumPrice}
+            showOriginalPriceAndBadge={showOriginalPriceAndBadge}
+            discountRate={discountRate}
+
+          />
         <Button
           id="add-to-cart-button"
           disabled={disabled || addToCartDisabled}
@@ -132,7 +141,7 @@ const ProductStickyPrice = forwardRef(({
             ? <LoadingDots overrideCss={true} />
             : addToCartBtnText}
         </Button>
-      {/* </div> */}
+      </div>
       {/* {(image || viewerState.previewUrl || isNewUpload)
         &&
         (<span className='add-to-cart-icon-wrapper'>
