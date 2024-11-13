@@ -118,7 +118,7 @@ function DocumentPreview({currentProductHasSSTK,webGlEnabled,openSstkModal,sizeI
         if (modalType === 'LocalFiles') {
             openModelParam = 'showOnlyLocalFilesModal';
             // Commenting used for Local development
-            openUploadLocalModelHandler()
+            // openUploadLocalModelHandler()
         } else if (modalType === 'MyFiles') {
             openModelParam = 'showOnlyMyFilesModal';
         }
