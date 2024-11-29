@@ -50,6 +50,14 @@ export const Generic = () => {
         }, 1000 * renewTokenIntervalSec)
       }
 
+      // type 3 is uStore Connect
+      if (currentStore && currentStore.StoreType === 3) {
+        const cartUrl = currentStore.Attributes.find((attribute) => attribute.Name === 'CartUrl')?.Value
+        if (cartUrl) {
+          themeContext.set('cartUrl', cartUrl)
+        }
+      }
+      
       // If current url contains http and store is ssl, redirect to https
       const sslOption = currentStore && currentStore.Attributes.find((attribute) => attribute.Name === 'SslOption')
       if (window.location.href.indexOf('http://') === 0

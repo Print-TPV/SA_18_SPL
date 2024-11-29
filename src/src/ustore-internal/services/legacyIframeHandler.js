@@ -8,7 +8,7 @@ import logger from './logger'
 
 const ngToLegacyConversions = [
   {
-    reg: /^((?!product|category).)*\/drafts/,
+    reg: /^((?!\b(product|category|cart)\b(?!\/[a-z]{2}-[A-Z]{2}\/)).)*\/drafts/,
     generateURL: () => `Drafts`
   },
   {
@@ -98,7 +98,7 @@ const ngToLegacyConversions = [
     generateURL: () => `ProductUnavailable.aspx`
   },
   {
-    reg: /^((?!product|category).)*\/recipient/,
+    reg: /^((?!\b(product|category|cart)\b(?!\/[a-z]{2}-[A-Z]{2}\/)).)*\/recipient/,
     generateURL: () => `Recipient.aspx`
   },
   // {
